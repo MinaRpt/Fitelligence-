@@ -6,19 +6,25 @@ public class UserProfiles {
     private Gender gender;
     private HealthCondition healthCondition;
 
-    private NutritionTracker nutritionTracker;
+    private FoodTracker foodTracker;
     private ExerciseTracker exerciseTracker;
 
 
-    public UserProfiles(int age, ExerciseTracker exerciseTracker, Gender gender, HealthCondition healthCondition,
-                        double height, String name, NutritionTracker nutritionTracker, double weight) {
+    public UserProfiles(String name,
+                        int age,
+                        Gender gender,
+                        double height,
+                        double weight,
+                        HealthCondition healthCondition,
+                        FoodTracker foodTracker,
+                        ExerciseTracker exerciseTracker) {
         this.age = age;
         this.exerciseTracker = exerciseTracker;
         this.gender = gender;
         this.healthCondition = healthCondition;
         this.height = height;
         this.name = name;
-        this.nutritionTracker = nutritionTracker;
+        this.foodTracker = foodTracker;
         this.weight = weight;
     }
 
@@ -46,14 +52,19 @@ public class UserProfiles {
         return weight;
     }
 
-    public NutritionTracker getNutritionTracker() {
-        return nutritionTracker;
+    public FoodTracker getFoodTracker() {
+        return foodTracker;
     }
 
     public ExerciseTracker getExerciseTracker() {
         return exerciseTracker;
     }
 
+    @Override
+    public String toString() {
+            return age + "," + name + "," + weight + "," + height + "," +
+                    gender + "," + healthCondition + "," + foodTracker + "," + exerciseTracker;
+    }
 }
 
 

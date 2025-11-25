@@ -6,11 +6,11 @@ public class Exercise {
     private double caloriesBurned;
     private LocalDateTime timestamp;
 
-    public Exercise(double caloriesBurned, int durationMinutes, String exerciseName, LocalDateTime timestamp) {
+    public Exercise(double caloriesBurned, int durationMinutes, String exerciseName) {
         this.caloriesBurned = caloriesBurned;
         this.durationMinutes = durationMinutes;
         this.exerciseName = exerciseName;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 
     public double getCaloriesBurned() {

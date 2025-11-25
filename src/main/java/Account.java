@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Account {
 
@@ -14,8 +15,27 @@ public class Account {
         this.name = name;
         this.password = password;
         this.profiles = profiles;
-        this.accountID = "name_" + System.currentTimeMillis();         // current time mills dh by7sb the time since January 1 1970 which will help us make a unique ID for each user
+        this.accountID = "name_" + UUID.randomUUID();         // Generate unique account ID using UUID
+    }
 
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public List<UserProfiles> getProfiles() {
+        return profiles;
     }
 
     public void addProfile(UserProfiles profile) {
@@ -24,25 +44,23 @@ public class Account {
     }
 
     public void removeProfile(UserProfiles profile) {
-        for (int i = 0; i < profiles.size(); i++) {
-            if (profiles.get(i).equals(profile)) {
-                profiles.remove(i);
-            }
-        }
+                profiles.remove(profile);
+    }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(email, account.email);
     }
 
 
-    public void displayProfiles() {
-        for (int i = 0; i < profiles.size(); i++) {
-            System.out.println(profiles.get(i).getName());
-            System.out.println(profiles.get(i).getAge());
-            System.out.println(profiles.get(i).getHeight());
-            System.out.println(profiles.get(i).getGender());
-            System.out.println(profiles.get(i).getWeight());
-            System.out.println("------------------------------");
-        }
+    @Override
+    public String toString() {
+        return accountID + "," + email + "," + password + "," + name + "," +  profiles;
+    }
 
+    public void displayProfiles() {
+        System.out.println(profiles);
     }
 }

@@ -1,7 +1,6 @@
 public enum HealthCondition {
-    none,
+    NONE,
     DIABETES,
     Heart_Disease,
     Kidney_Disease
-
 }
