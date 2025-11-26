@@ -5,28 +5,24 @@ public class UserProfiles {
     private double height;
     private Gender gender;
     private HealthCondition healthCondition;
-
+    private FitnessGoal fitnessGoal;
     private FoodTracker foodTracker;
     private ExerciseTracker exerciseTracker;
 
 
-    public UserProfiles(String name,
-                        int age,
-                        Gender gender,
-                        double height,
-                        double weight,
-                        HealthCondition healthCondition,
-                        FoodTracker foodTracker,
-                        ExerciseTracker exerciseTracker) {
-        this.age = age;
-        this.exerciseTracker = exerciseTracker;
-        this.gender = gender;
-        this.healthCondition = healthCondition;
-        this.height = height;
+   public UserProfiles(String name, int age, Gender gender, double height , double weight ) {
         this.name = name;
-        this.foodTracker = foodTracker;
+        this.age = age;
+        this.gender = Gender.valueOf(gender.toString());
+        this.height = height;
         this.weight = weight;
+        this.healthCondition = HealthCondition.NONE;
+        this.fitnessGoal = FitnessGoal.MAINTAIN_WEIGHT;
+        this.foodTracker = new FoodTracker();
+        this.exerciseTracker = new ExerciseTracker();
     }
+
+
 
     public int getAge() {
         return age;
@@ -62,8 +58,8 @@ public class UserProfiles {
 
     @Override
     public String toString() {
-            return age + "," + name + "," + weight + "," + height + "," +
-                    gender + "," + healthCondition + "," + foodTracker + "," + exerciseTracker;
+            return name + "," + age + "," + weight + "," + height + "," +
+                    gender + "," + healthCondition + "," + foodTracker + "," + exerciseTracker + "," + fitnessGoal;
     }
 }
 

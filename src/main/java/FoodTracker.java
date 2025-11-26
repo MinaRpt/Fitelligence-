@@ -49,4 +49,13 @@ public class FoodTracker {
         return totalCarb;
      }
 
+    @Override
+    public String toString() {
+        return "FoodTracker{" +
+                "foodList=" + foodList +
+                '}' + "Total calories=" + CalculateTotalCalories() +
+                ", Total Protein=" + calculatTotalprotein() +
+                ", Total Fat=" + calculatTotalfat() +
+                ", Total Carbs=" + calculatTotalcarb();
+    }
 }

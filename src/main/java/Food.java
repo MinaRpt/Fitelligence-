@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Food {
+public class Food extends Trackable {
     private String foodName;
     private double calories;
     private double protein;
@@ -16,6 +16,7 @@ public class Food {
         this.timestamp = timestamp;
     }
 
+    @Override
     public double getCalories() {
         return calories;
     }
@@ -38,5 +39,17 @@ public class Food {
 
     public double getCarbs() {
         return carbs;
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "calories=" + calories +
+                ", foodName='" + foodName + '\'' +
+                ", protein=" + protein +
+                ", fat=" + fat +
+                ", carbs=" + carbs +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

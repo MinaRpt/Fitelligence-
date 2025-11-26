@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Exercise {
+public class Exercise extends Trackable {
     private String exerciseName;
     private int durationMinutes;
     private double caloriesBurned;
@@ -12,8 +12,8 @@ public class Exercise {
         this.exerciseName = exerciseName;
         this.timestamp = LocalDateTime.now();
     }
-
-    public double getCaloriesBurned() {
+    @Override
+    public double getCalories() {
         return caloriesBurned;
     }
 
@@ -43,5 +43,15 @@ public class Exercise {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "caloriesBurned=" + caloriesBurned +
+                ", exerciseName='" + exerciseName + '\'' +
+                ", durationMinutes=" + durationMinutes +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

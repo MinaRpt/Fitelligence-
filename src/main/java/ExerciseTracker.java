@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseTracker {
-    private List<Exercise> exerciseEntries;
+    private ArrayList<Exercise> exerciseEntries;
     private double totalCaloriesBurned;
 
     public ExerciseTracker() {
@@ -24,4 +24,8 @@ public class ExerciseTracker {
         return new ArrayList<>(exerciseEntries);
     }
 
+    @Override
+    public String toString() {
+        return "ExerciseName = " + exerciseEntries + ", TotalCaloriesBurned = " + totalCaloriesBurned;
+    }
 }

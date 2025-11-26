@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,14 +9,13 @@ public class Account {
     private String email;
     private String password;
     private String name;
-    private List<UserProfiles> profiles;
+    private ArrayList<UserProfiles> profiles = new ArrayList<>();
 
-    public Account(String email, String name, String password, List<UserProfiles> profiles) {
+
+    public Account(String email,String password) {
         this.email = email;
-        this.name = name;
         this.password = password;
-        this.profiles = profiles;
-        this.accountID = "name_" + UUID.randomUUID();         // Generate unique account ID using UUID
+        this.accountID = UUID.randomUUID().toString();         // Generate unique account ID using UUID then makes it as a string else it will give an error
     }
 
     public String getAccountID() {
@@ -57,7 +57,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return accountID + "," + email + "," + password + "," + name + "," +  profiles;
+        return accountID + "," + email + "," + password + "," + name + "," + profiles;
     }
 
     public void displayProfiles() {
