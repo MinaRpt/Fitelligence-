@@ -56,6 +56,42 @@ public class UserProfiles {
         return exerciseTracker;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setExerciseTracker(ExerciseTracker exerciseTracker) {
+        this.exerciseTracker = exerciseTracker;
+    }
+
+    public void setFitnessGoal(FitnessGoal fitnessGoal) {
+        this.fitnessGoal = fitnessGoal;
+    }
+
+    public void setFoodTracker(FoodTracker foodTracker) {
+        this.foodTracker = foodTracker;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setHealthCondition(HealthCondition healthCondition) {
+        this.healthCondition = healthCondition;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
     @Override
     public String toString() {
             return name + "," + age + "," + weight + "," + height + "," +

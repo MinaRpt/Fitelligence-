@@ -26,16 +26,16 @@ import static javafx.geometry.Pos.TOP_CENTER;
 
 public class Main extends Application  {  // extends application gives us the functionality of the Application!
 
-String email;
-String password;
-AccountService accountService = new AccountService();
-UserProfiles currentUser=null;
+    String email;
+    String password;
+    AccountService accountService = new AccountService();
+    UserProfiles currentUser  = new UserProfiles( "" , 0 , Gender.MALE , 0 , 0 );
 
 
 
-Text SignUpAndIn = new Text() ;       // just the button verification text
+    Text SignUpAndIn = new Text() ;       // just the button verification text
 
-
+    Text userNameText = new Text("");;
 
 
 
@@ -94,16 +94,19 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
         heightField.setMaxHeight(40);
         heightField.setTranslateY(-150);
 
+
         TextField weightField = new TextField( );
-        weightField.setPromptText("Enter your Weight ex. 70kg");
+        weightField.setPromptText("Enter your Weight ex. 99kg");
         weightField.setMaxWidth(400);
         weightField.setMaxHeight(40);
         weightField.setTranslateY(-100);
+
 
         ComboBox genderBox = new ComboBox();
         genderBox.setPromptText("Choose Gender");
         genderBox.getItems().addAll("MALE", "FEMALE");
         genderBox.setTranslateY( -50);
+
 
         ComboBox Healthconditionbox = new ComboBox();
         Healthconditionbox.setPromptText("Choose Health Condition");
@@ -117,6 +120,7 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 String name = nameField.getText();
                 int userAge = Integer.parseInt(age.getText());
                 double weight = (Double) Double.parseDouble(weightField.getText());
@@ -128,9 +132,21 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
                 HealthCondition healthConditionSelected = HealthCondition.valueOf(Healthconditionbox.getValue().toString());
                 String chosenHealthCondition = healthConditionSelected.toString();
                 String ChosenGender = selected.toString();
-                currentUser = new UserProfiles(name , userAge , selected , height , weight  );
+
+                currentUser.setName(name);
+                currentUser.setAge(userAge);
+                currentUser.setWeight(weight);
+                currentUser.setHeight(height);
+                currentUser.setGender(selected);
+                currentUser.setHealthCondition(healthConditionSelected);
+
+
                 System.out.println(name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition);
+
+
                 stage.setScene(scene2);
+
+
             }
         });
         root1.getChildren().addAll(nameField , age , WelcomingText  , heightField , weightField, SubmitButton , genderBox, Healthconditionbox);     // add the button to the scene for it to appear on the screen
@@ -140,20 +156,29 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
 
 
 
-        //* Scene for new user who signed up NEW NEW NEW using root1 OR PEOPLE WHO SIGNED IN USING ROOT2!! ! *//
-
-        Text WelcomeBackText = new Text();
-        WelcomeBackText.setText("Welcome Back to Fitelligence!" + currentUser.getName() );
-        WelcomeBackText.setFont(Font.font("Verdana", 30 ));
-        StackPane.setAlignment(WelcomeBackText , TOP_CENTER);
 
 
 
 
-         root2.getChildren().addAll(WelcomeBackText);
+
+
+        //* Scene for new user who signed up NEW NEW NEW using root1 OR PEOPLE WHO SIGNED IN USING ROOT2!! THIS IS THE MAIN APPLICATION ! *//
+
+        Text userNameText = new Text();
+        userNameText.setText("Welcome to Fitelligence!" + currentUser.getName());
+
+        userNameText.setFont(Font.font("Verdana", 50 ));
+        StackPane.setAlignment(userNameText , TOP_CENTER);
+        userNameText.setTranslateY(20);
+
+        root2.getChildren().add(userNameText);
 
 
 //
+
+
+
+
 
 
 
@@ -171,12 +196,14 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
         StackPane.setAlignment(text , TOP_CENTER);
 
 
-           // Text Fields for the user to input data!
+
+        // Text Fields for the user to input data!
         TextField emailField = new TextField( );
         emailField.setPromptText("Enter your Email ex.Minamanmon5@gmail.com");
         emailField.setMaxWidth(400);
         emailField.setMaxHeight(40);
         emailField.setTranslateY(-50);
+
 
         TextField Password = new TextField( );
         Password.setPromptText("Enter your password ex. Minamanmon123");
@@ -207,38 +234,43 @@ Text SignUpAndIn = new Text() ;       // just the button verification text
             }
         });
 
-            Button SignInButton = new Button("SignIn");
-            SignInButton.setFont(Font.font("Verdana", 20));
-            SignInButton.setTranslateX(100);
-            SignInButton.setTranslateY(100);
-            SignInButton.setOnAction(event -> {
-                email = emailField.getText();
-                password = Password.getText();
 
 
+        Button SignInButton = new Button("SignIn");
+        SignInButton.setFont(Font.font("Verdana", 20));
+        SignInButton.setTranslateX(100);
+        SignInButton.setTranslateY(100);
+        SignInButton.setOnAction(event -> {
+            email = emailField.getText();
+            password = Password.getText();
 
-                Account account = new Account(email , password);
-                boolean registeredAccount = accountService.SignInCheck(account);
-                System.out.println(registeredAccount);
-                if(registeredAccount) {
-                    SignUpAndIn.setText("Signed In Successfully!! Welcome Back");
-                    SignUpAndIn.setFont(Font.font("Verdana", 20 ));
-                    StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
 
+            Account account = new Account(email , password);
+            boolean registeredAccount = accountService.SignInCheck(account);
+            System.out.println(registeredAccount);
+            if(registeredAccount) {
+                SignUpAndIn.setText("Signed In Successfully!! Welcome Back");
+                SignUpAndIn.setFont(Font.font("Verdana", 20 ));
+                StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
+                stage.setScene(scene2);
 
-                }
-                else {
-                    SignUpAndIn.setText("Account doesnn't exists please Signup!!");
-                    SignUpAndIn.setFont(Font.font("Verdana", 20 ));
-                    StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
-                }
+            }
+            else {
+                SignUpAndIn.setText("Account doesnn't exists please Signup!!");
+                SignUpAndIn.setFont(Font.font("Verdana", 20 ));
+                StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
+            }
         });
+
+
 
         root.getChildren().addAll(SignInButton , SignUpButton , text , emailField , Password);     // add the button to the scene for it to appear on the screen
 //        root.getChildren().add(SignInButton );
 //        root.getChildren().add(SignUpButton);
 //        root.getChildren().add(text);
         root.getChildren().add(SignUpAndIn);
+
+
 
 
         stage.setScene(scene);
