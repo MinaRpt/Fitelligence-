@@ -2,7 +2,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
+
+
+
     private ArrayList<Account> accounts = new ArrayList<>();
+
+
+
+    public AccountService(ArrayList<Account> preloadedAccounts) {
+        this.accounts = preloadedAccounts;}
+
 
     public boolean SignUpCheck(Account account) {
         for (int i = 0; i < accounts.size(); i++) {

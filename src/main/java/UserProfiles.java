@@ -1,4 +1,6 @@
-public class UserProfiles {
+import java.io.Serializable;
+
+public class UserProfiles  implements Serializable {
     private int age;
     private String name;
     private double weight;

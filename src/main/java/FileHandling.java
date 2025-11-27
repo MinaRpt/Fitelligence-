@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileHandling {
@@ -16,17 +14,35 @@ public class FileHandling {
 //    }
 
 
-    public void saveAccounts(ArrayList<Account> accounts) {
-        try (FileWriter writer = new FileWriter("accounts.txt")) {
-            for (Account acc : accounts) {
-                writer.write(acc.toString() + "\n");
-            }
-            System.out.println("Accounts saved to file successfully.");
-        } catch (Exception e) {
+//    public void saveAccounts(ArrayList<Account> accounts) {
+//        try (FileWriter writer = new FileWriter("accounts.txt")) {
+//            for (Account acc : accounts) {
+//                writer.write(acc.toString() + "\n");
+//            }
+//            System.out.println("Accounts saved to file successfully.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+public void saveAccounts(ArrayList<Account> accounts) {
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("accounts.ser"))) {
+        oos.writeObject(accounts);
+        System.out.println("Accounts saved successfully.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}   public ArrayList<Account> loadAccounts() {
+        ArrayList<Account> accounts = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("accounts.ser"))) {
+            accounts = (ArrayList<Account>) ois.readObject();
+            System.out.println("Accounts loaded successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println("No accounts file found, returning empty list.");
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return accounts;
     }
-
     //    public void saveProfiles(UserProfiles profiles) {
 //        try (FileWriter writer = new FileWriter("profiles.txt")) {
 //            writer.write(profiles.toString());
@@ -36,37 +52,39 @@ public class FileHandling {
 //        }
 //
 //    }
+//    public void saveProfiles(ArrayList<UserProfiles> profiles) {
+//        try (FileWriter writer = new FileWriter("profiles.txt")) {
+//            for (UserProfiles profile : profiles) {
+//                writer.write(profile.toString() + "\n");
+//            }
+//            System.out.println("Profiles saved to file successfully.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//
+//
+//        }
+//    }
+
     public void saveProfiles(ArrayList<UserProfiles> profiles) {
-        try (FileWriter writer = new FileWriter("profiles.txt")) {
-            for (UserProfiles profile : profiles) {
-                writer.write(profile.toString() + "\n");
-            }
-            System.out.println("Profiles saved to file successfully.");
-        } catch (Exception e) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("profiles.ser"))) {
+            oos.writeObject(profiles);
+            System.out.println("Profiles saved successfully.");
+        } catch (IOException e) {
             e.printStackTrace();
-
-
         }
     }
 
-        public ArrayList<UserProfiles> loadProfiles () {
-            ArrayList<UserProfiles> profiles = new ArrayList<>();
-            try (BufferedReader br = new BufferedReader(new FileReader("profiles.txt"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    String[] parts = line.split(",");
-                    String email = parts[0];
-                    String name = parts[1];
-                    int age = Integer.parseInt(parts[2]);
-                    Gender gender = Gender.valueOf(parts[3]);
-                    double height = Double.parseDouble(parts[4]);
-                    double weight = Double.parseDouble(parts[5]);
-                    HealthCondition healthCondition = HealthCondition.valueOf(parts[6]);
-                    profiles.add(new UserProfiles(email, name, age, gender, height, weight, healthCondition));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return profiles;
+    @SuppressWarnings("unchecked")
+    public ArrayList<UserProfiles> loadProfiles() {
+        ArrayList<UserProfiles> profiles = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("profiles.ser"))) {
+            profiles = (ArrayList<UserProfiles>) ois.readObject();
+            System.out.println("Profiles loaded successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println("No profiles file found, returning empty list.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        return profiles;
     }
+}

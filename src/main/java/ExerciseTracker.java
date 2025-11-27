@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExerciseTracker {
+public class ExerciseTracker implements Serializable {
     private ArrayList<Exercise> exerciseEntries;
     private double totalCaloriesBurned;
 

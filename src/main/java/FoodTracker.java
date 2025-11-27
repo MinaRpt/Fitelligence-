@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodTracker {
+public class FoodTracker implements Serializable {
     private List<Food> foodList;
 
     public FoodTracker() {

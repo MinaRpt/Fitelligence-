@@ -28,11 +28,15 @@ public class Main extends Application  {  // extends application gives us the fu
 
     String email;
     String password;
-    AccountService accountService = new AccountService();
     UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, HealthCondition.NONE);
     ArrayList<Account> accountList = new ArrayList<>();
-    FileHandling fileHandler = new FileHandling();
     ArrayList<UserProfiles> profileList = new ArrayList<>();
+    FileHandling fileHandler = new FileHandling();
+    ArrayList<Account> loadedAccounts = fileHandler.loadAccounts(); // load accounts from file
+    AccountService accountService = new AccountService(loadedAccounts);
+
+    ArrayList<Account> accounts = fileHandler.loadAccounts();
+
 
 
     Text SignUpAndIn = new Text() ;       // just the button verification text
