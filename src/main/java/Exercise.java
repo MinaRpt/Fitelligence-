@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Exercise extends Trackable {
+public class Exercise extends Trackable implements Serializable {
     private String exerciseName;
     private int durationMinutes;
     private double caloriesBurned;
@@ -24,6 +25,7 @@ public class Exercise extends Trackable {
     public int getDurationMinutes() {
         return durationMinutes;
     }
+
 
     public void setDurationMinutes(int durationMinutes) {
         this.durationMinutes = durationMinutes;

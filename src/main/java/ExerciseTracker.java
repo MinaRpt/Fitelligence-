@@ -10,7 +10,13 @@ public class ExerciseTracker implements Serializable {
         this.exerciseEntries = new ArrayList<>();
         this.totalCaloriesBurned = 0;
     }
-
+    public int getTotalDurationMinutes() {
+        int total = 0;
+        for (Exercise ex : exerciseEntries) {
+            total += ex.getDurationMinutes();
+        }
+        return total;
+    }
     public void addExercise(String exerciseName, int durationMinutes, double caloriesBurned) {
         Exercise add = new Exercise(caloriesBurned, durationMinutes, exerciseName);
         exerciseEntries.add(add);

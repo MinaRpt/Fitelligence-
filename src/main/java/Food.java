@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Food extends Trackable {
+public class Food extends Trackable implements Serializable {
     private String foodName;
     private double calories;
     private double protein;
