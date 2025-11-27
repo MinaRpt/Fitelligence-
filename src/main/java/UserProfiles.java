@@ -8,21 +8,32 @@ public class UserProfiles {
     private FitnessGoal fitnessGoal;
     private FoodTracker foodTracker;
     private ExerciseTracker exerciseTracker;
+    private String email;
 
-
-   public UserProfiles(String name, int age, Gender gender, double height , double weight ) {
+    public UserProfiles(String email, String name, int age, Gender gender, double height, double weight, HealthCondition hc) {
+        this.email = email;
         this.name = name;
         this.age = age;
-        this.gender = Gender.valueOf(gender.toString());
+        this.gender = gender;
         this.height = height;
         this.weight = weight;
-        this.healthCondition = HealthCondition.NONE;
+        this.healthCondition = HealthCondition.valueOf(hc.toString());
         this.fitnessGoal = FitnessGoal.MAINTAIN_WEIGHT;
         this.foodTracker = new FoodTracker();
         this.exerciseTracker = new ExerciseTracker();
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public FitnessGoal getFitnessGoal() {
+        return fitnessGoal;
+    }
 
     public int getAge() {
         return age;
@@ -94,9 +105,10 @@ public class UserProfiles {
 
     @Override
     public String toString() {
-            return name + "," + age + "," + weight + "," + height + "," +
-                    gender + "," + healthCondition + "," + foodTracker + "," + exerciseTracker + "," + fitnessGoal;
+        return email + " , " + name + "," + age + "," + weight + "," + height + "," +
+                gender + "," + healthCondition + "," + foodTracker + "," + exerciseTracker + "," + fitnessGoal;
     }
-}
+    }
+
 
 

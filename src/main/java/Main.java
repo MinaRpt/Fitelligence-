@@ -29,8 +29,10 @@ public class Main extends Application  {  // extends application gives us the fu
     String email;
     String password;
     AccountService accountService = new AccountService();
-    UserProfiles currentUser  = new UserProfiles( "" , 0 , Gender.MALE , 0 , 0 );
-
+    UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, HealthCondition.NONE);
+    ArrayList<Account> accountList = new ArrayList<>();
+    FileHandling fileHandler = new FileHandling();
+    ArrayList<UserProfiles> profileList = new ArrayList<>();
 
 
     Text SignUpAndIn = new Text() ;       // just the button verification text
@@ -139,12 +141,70 @@ public class Main extends Application  {  // extends application gives us the fu
                 currentUser.setHeight(height);
                 currentUser.setGender(selected);
                 currentUser.setHealthCondition(healthConditionSelected);
+                currentUser.setEmail(email);
+
+                profileList.add(currentUser);
+                fileHandler.saveProfiles(profileList);
 
 
-                System.out.println(name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition);
+                String AIBotHelp = name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition;
+//                System.out.println(name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition);
 
 
                 stage.setScene(scene2);
+
+
+
+
+
+
+
+
+
+
+
+                // yalla let's fliping create scene2 in a button because I can't do anything else and my brain stopped working flip this project
+                Text userNameText = new Text();
+                userNameText.setText("Welcome to Fitelligence!" );
+
+
+
+
+                userNameText.setFont(Font.font("Verdana", 50 ));
+                StackPane.setAlignment(userNameText , TOP_CENTER);
+                userNameText.setTranslateY(20);
+
+
+
+                Text AIWorkoutHelp = new Text();
+                AIWorkoutHelp.setText("Hello,"+ currentUser.getName() + "Let's make Today count!!");
+                AIWorkoutHelp.setFont(Font.font("Verdana", 30 ));
+                StackPane.setAlignment(AIWorkoutHelp , TOP_CENTER);
+                AIWorkoutHelp.setTranslateY(300);
+                AIWorkoutHelp.setTranslateX(-200);
+
+
+                AIChatBot.startChat(AIBotHelp)   ;      // this method is for the ai to tell me what the heck this user needs to fliping eat ef ef
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                root2.getChildren().addAll(userNameText ,AIWorkoutHelp );
 
 
             }
@@ -162,16 +222,7 @@ public class Main extends Application  {  // extends application gives us the fu
 
 
 
-        //* Scene for new user who signed up NEW NEW NEW using root1 OR PEOPLE WHO SIGNED IN USING ROOT2!! THIS IS THE MAIN APPLICATION ! *//
 
-        Text userNameText = new Text();
-        userNameText.setText("Welcome to Fitelligence!" + currentUser.getName());
-
-        userNameText.setFont(Font.font("Verdana", 50 ));
-        StackPane.setAlignment(userNameText , TOP_CENTER);
-        userNameText.setTranslateY(20);
-
-        root2.getChildren().add(userNameText);
 
 
 //
@@ -229,7 +280,8 @@ public class Main extends Application  {  // extends application gives us the fu
                     SignUpAndIn.setFont(Font.font("Verdana", 20));
                     StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
                     stage.setScene(scene1);
-
+                    accountList.add(account);
+                    fileHandler.saveAccounts(accountList);
                 }
             }
         });
