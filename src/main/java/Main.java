@@ -35,6 +35,7 @@ public class Main extends Application  {  // extends application gives us the fu
     ArrayList<Account> loadedAccounts = fileHandler.loadAccounts(); // load accounts from file
     AccountService accountService = new AccountService(loadedAccounts);
 
+    ArrayList<UserProfiles> loadedProfiles = fileHandler.loadProfiles();  // I am lost between all this methods I need someone to explain them to me ef ef
     ArrayList<Account> accounts = fileHandler.loadAccounts();
 
 
@@ -73,7 +74,8 @@ public class Main extends Application  {  // extends application gives us the fu
 
 
 
-
+        StackPane root3 = new StackPane();        // This scene is for the new user who signedIn new ! MAIN APP!!
+        Scene scene3 = new Scene(root3 , 1400 , 700);
 
 
         //* Scene for new user who signed up NEW NEW NEW using root1 ! *//
@@ -308,7 +310,20 @@ public class Main extends Application  {  // extends application gives us the fu
                 SignUpAndIn.setText("Signed In Successfully!! Welcome Back");
                 SignUpAndIn.setFont(Font.font("Verdana", 20 ));
                 StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
-                stage.setScene(scene2);
+
+
+
+                currentUser = findProfileByEmail(email);  // This saved it I need an explination of how it worked HELP SOMEONE PLEASE FF
+
+
+                Text WelcomingTextSignIN = new Text();
+                WelcomingTextSignIN.setText("Welcome Back" + currentUser.getName());
+                WelcomingTextSignIN.setFont(Font.font("Verdana", 20));
+
+                root3.getChildren().addAll(WelcomingTextSignIN);
+                stage.setScene(scene3);
+
+
 
             }
             else {
@@ -335,5 +350,13 @@ public class Main extends Application  {  // extends application gives us the fu
 
     }
 
-
+    private UserProfiles findProfileByEmail(String email) {
+        ArrayList<UserProfiles> profiles = fileHandler.loadProfiles();
+        for (UserProfiles profile : profiles) {
+            if (profile.getEmail().equals(email)) {
+                return profile;
+            }
+        }
+        return null;
+    }
 }

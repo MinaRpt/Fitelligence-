@@ -5,7 +5,7 @@ import java.net.URI;
 import java.util.Scanner;
 
 public class AIChatBot {
-    private static final String API_KEY = "AIzaSyDfYjjrr45e33EjDr5xmuWbCSWh6Jj1FhI";
+    private static final String API_KEY = "AIzaSyDsfyapg1BisYFsynN1bZTN8RjCXZtMfJg";
 
     public static void startChat() {
         Scanner scanner = new Scanner(System.in);
