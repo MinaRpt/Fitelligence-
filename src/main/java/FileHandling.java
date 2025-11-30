@@ -25,7 +25,7 @@ public class FileHandling {
 //        }
 //    }
 public void saveAccounts(ArrayList<Account> accounts) {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("accounts.ser"))) {
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("accounts.txt"))) {
         oos.writeObject(accounts);
         System.out.println("Accounts saved successfully.");
     } catch (IOException e) {
@@ -33,7 +33,7 @@ public void saveAccounts(ArrayList<Account> accounts) {
     }
 }   public ArrayList<Account> loadAccounts() {
         ArrayList<Account> accounts = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("accounts.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("accounts.txt"))) {
             accounts = (ArrayList<Account>) ois.readObject();
             System.out.println("Accounts loaded successfully.");
         } catch (FileNotFoundException e) {
@@ -66,7 +66,7 @@ public void saveAccounts(ArrayList<Account> accounts) {
 //    }
 
     public void saveProfiles(ArrayList<UserProfiles> profiles) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("profiles.ser"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("profiles.txt"))) {
             oos.writeObject(profiles);
             System.out.println("Profiles saved successfully.");
         } catch (IOException e) {
@@ -77,7 +77,7 @@ public void saveAccounts(ArrayList<Account> accounts) {
     @SuppressWarnings("unchecked")
     public ArrayList<UserProfiles> loadProfiles() {
         ArrayList<UserProfiles> profiles = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("profiles.ser"))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("profiles.txt"))) {
             profiles = (ArrayList<UserProfiles>) ois.readObject();
             System.out.println("Profiles loaded successfully.");
         } catch (FileNotFoundException e) {
