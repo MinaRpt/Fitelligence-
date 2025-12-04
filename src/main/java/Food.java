@@ -9,12 +9,13 @@ public class Food extends Trackable implements Serializable {
     private double carbs;
     private LocalDateTime timestamp;
 
-    public Food(double calories, double fat, String foodName, double protein, LocalDateTime timestamp) {
+    public Food(double calories, double fat, String foodName, double protein, LocalDateTime timestamp , double carbs) {
         this.calories = calories;
         this.fat = fat;
         this.foodName = foodName;
         this.protein = protein;
         this.timestamp = timestamp;
+        this.carbs = carbs;
     }
 
     @Override
