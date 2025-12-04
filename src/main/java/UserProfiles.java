@@ -25,6 +25,10 @@ public class UserProfiles  implements Serializable {
         this.exerciseTracker = new ExerciseTracker();
     }
 
+    public double calculateBMI(double weightKg, double heightMeters) {
+        return weightKg / (heightMeters * heightMeters);
+    }
+
     public String getEmail() {
         return email;
     }
