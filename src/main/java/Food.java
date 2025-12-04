@@ -53,4 +53,5 @@ public class Food extends Trackable implements Serializable {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
 }
