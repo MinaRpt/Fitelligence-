@@ -1,23 +1,18 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.animation.PauseTransition;
+ import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import jfx.incubator.scene.control.richtext.SelectionSegment;
 import javafx.scene.text.Font;
-import java.awt.*;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 
 
@@ -28,7 +23,7 @@ public class Main extends Application  {  // extends application gives us the fu
 
     String email;
     String password;
-    UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, HealthCondition.NONE);
+    UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, ConditionHealth.NONE , FitnessGoal.MAINTAIN_WEIGHT);
     ArrayList<Account> accountList = new ArrayList<>();
     ArrayList<UserProfiles> profileList = new ArrayList<>();
     FileHandling fileHandler = new FileHandling();
@@ -121,6 +116,14 @@ public class Main extends Application  {  // extends application gives us the fu
         Healthconditionbox.setTranslateY(0);
 
 
+        ComboBox goalBox = new ComboBox();
+        goalBox.setPromptText("Choose Your Goal!");
+        goalBox.getItems().addAll("WEIGHT_LOSS","MUSCLE_GAIN", "MAINTAIN_WEIGHT");
+        goalBox.setTranslateY(50);
+
+
+
+
         Button SubmitButton = new Button("Submit");
         SubmitButton.setFont(Font.font("Verdana", 20));
         SubmitButton.setTranslateY(100);
@@ -136,182 +139,30 @@ public class Main extends Application  {  // extends application gives us the fu
                 Gender selected =Gender.valueOf(genderBox.getValue().toString());
 
 
-                HealthCondition healthConditionSelected = HealthCondition.valueOf(Healthconditionbox.getValue().toString());
-                String chosenHealthCondition = healthConditionSelected.toString();
-                String ChosenGender = selected.toString();
+                ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
+                FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
                 currentUser.setName(name);
                 currentUser.setAge(userAge);
                 currentUser.setWeight(weight);
                 currentUser.setHeight(height);
                 currentUser.setGender(selected);
-                currentUser.setHealthCondition(healthConditionSelected);
+                currentUser.setHealthCondition(conditionHealthSelected);
                 currentUser.setEmail(email);
-
-                profileList.add(currentUser);
-                fileHandler.saveProfiles(profileList);
-
-
-                String AIBotHelp = name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition;
-//                System.out.println(name + " " + userAge + " " + weight + " " + height + " " + ChosenGender + " " + chosenHealthCondition);
-
-
-                stage.setScene(scene2);
-
-
                 currentUser.setFoodTracker(foodTracker);
                 currentUser.setExerciseTracker(exerciseTracker);
+                profileList.add(currentUser);
+                currentUser.setFitnessGoal(ChosenGoal);
 
-
-
-
-
-
-
-
-
-
+                fileHandler.saveProfiles(profileList);
 
                 // yalla let's fliping create scene2 in a button because I can't do anything else and my brain stopped working flip this project
-                // --- WELCOME TEXT & AI ---
-                Text userNameText = new Text();
-                userNameText.setText("Welcome to Fitelligence!");
-                userNameText.setFont(Font.font("Verdana", 50));
-                StackPane.setAlignment(userNameText, TOP_CENTER);
-                userNameText.setTranslateY(20);
-
-                Text AIWorkoutHelp = new Text();
-                AIWorkoutHelp.setText("Hello, " + currentUser.getName() + " Let's make today count!!");
-                AIWorkoutHelp.setFont(Font.font("Verdana", 30));
-                StackPane.setAlignment(AIWorkoutHelp, TOP_CENTER);
-                AIWorkoutHelp.setTranslateY(300);
-                AIWorkoutHelp.setTranslateX(-200);
-
-                AIChatBot.startChat(AIBotHelp); // your existing AI logic
-
-// --- FOOD INPUTS ---
-                TextField foodNameField = new TextField();
-                foodNameField.setPromptText("Food Name");
-                foodNameField.setMaxWidth(200);
-                foodNameField.setTranslateX(-400);
-                foodNameField.setTranslateY(-200);
-
-                TextField caloriesField = new TextField();
-                caloriesField.setPromptText("Calories");
-                caloriesField.setMaxWidth(100);
-                caloriesField.setTranslateX(-400);
-                caloriesField.setTranslateY(-150);
-
-                TextField proteinField = new TextField();
-                proteinField.setPromptText("Protein");
-                proteinField.setMaxWidth(100);
-                proteinField.setTranslateX(-400);
-                proteinField.setTranslateY(-100);
-
-                TextField fatField = new TextField();
-                fatField.setPromptText("Fat");
-                fatField.setMaxWidth(100);
-                fatField.setTranslateX(-400);
-                fatField.setTranslateY(-50);
-
-                TextField carbField = new TextField();
-                carbField.setPromptText("Carbs");
-                carbField.setMaxWidth(100);
-                carbField.setTranslateX(-400);
-                carbField.setTranslateY(0);
-
-                Button addFoodBtn = new Button("Add Food");
-                addFoodBtn.setTranslateX(-400);
-                addFoodBtn.setTranslateY(50);
-
-                Text foodDisplay = new Text();
-                foodDisplay.setFont(Font.font("Verdana", 20));
-                foodDisplay.setTranslateX(-400);
-                foodDisplay.setTranslateY(150);
-                foodDisplay.setText(updateFoodDisplay(currentUser.getFoodTracker()));
-
-// --- EXERCISE INPUTS ---
-                TextField exNameField = new TextField();
-                exNameField.setPromptText("Exercise Name");
-                exNameField.setMaxWidth(200);
-                exNameField.setTranslateX(400);
-                exNameField.setTranslateY(-200);
-
-                TextField exDurationField = new TextField();
-                exDurationField.setPromptText("Duration (min)");
-                exDurationField.setMaxWidth(100);
-                exDurationField.setTranslateX(400);
-                exDurationField.setTranslateY(-150);
-
-                TextField exCaloriesField = new TextField();
-                exCaloriesField.setPromptText("Calories Burned");
-                exCaloriesField.setMaxWidth(100);
-                exCaloriesField.setTranslateX(400);
-                exCaloriesField.setTranslateY(-100);
-
-                Button addExerciseBtn = new Button("Add Exercise");
-                addExerciseBtn.setTranslateX(400);
-                addExerciseBtn.setTranslateY(-50);
-
-                Text exDisplay = new Text();
-                exDisplay.setFont(Font.font("Verdana", 20));
-                exDisplay.setTranslateX(400);
-                exDisplay.setTranslateY(50);
-                exDisplay.setText(updateExerciseDisplay(currentUser.getExerciseTracker()));
-
-// --- BUTTON ACTIONS ---
-                addFoodBtn.setOnAction(e -> {
-                    try {
-                        String nameFood = foodNameField.getText();
-                        double cal = Double.parseDouble(caloriesField.getText());
-                        double protein = Double.parseDouble(proteinField.getText());
-                        double fat = Double.parseDouble(fatField.getText());
-                        double carbs = Double.parseDouble(carbField.getText());
-
-                        Food f = new Food(cal, fat, nameFood, protein, java.time.LocalDateTime.now());
-                        currentUser.getFoodTracker().addFood(f);
-                        foodDisplay.setText(updateFoodDisplay(currentUser.getFoodTracker()));
-                        fileHandler.saveProfiles(profileList);
-
-                        foodNameField.clear();
-                        caloriesField.clear();
-                        proteinField.clear();
-                        fatField.clear();
-                        carbField.clear();
-                    } catch (Exception ex) {
-                        System.out.println("Invalid Food Input");
-                    }
-                });
-
-                addExerciseBtn.setOnAction(e -> {
-                    try {
-                        String name10 = exNameField.getText();
-                        int duration = Integer.parseInt(exDurationField.getText());
-                        double calBurned = Double.parseDouble(exCaloriesField.getText());
-
-                        currentUser.getExerciseTracker().addExercise(name10, duration, calBurned);
-                        exDisplay.setText(updateExerciseDisplay(currentUser.getExerciseTracker()));
-                        fileHandler.saveProfiles(profileList);
-
-                        exNameField.clear();
-                        exDurationField.clear();
-                        exCaloriesField.clear();
-                    } catch (Exception ex) {
-                        System.out.println("Invalid Exercise Input");
-                    }
-                });
-
-// --- ADD EVERYTHING TO ROOT ---
-                root2.getChildren().addAll(
-                        userNameText, AIWorkoutHelp,
-                        foodNameField, caloriesField, proteinField, fatField, carbField, addFoodBtn, foodDisplay,
-                        exNameField, exDurationField, exCaloriesField, addExerciseBtn, exDisplay
-                );
 
 
+                PageHOME home = new PageHOME(currentUser, stage);
             }
         });
-        root1.getChildren().addAll(nameField , age , WelcomingText  , heightField , weightField, SubmitButton , genderBox, Healthconditionbox);     // add the button to the scene for it to appear on the screen
+        root1.getChildren().addAll(nameField , age , WelcomingText  , heightField , weightField, SubmitButton , genderBox , goalBox , Healthconditionbox);     // add the button to the scene for it to appear on the screen
 
 
 
@@ -411,141 +262,8 @@ public class Main extends Application  {  // extends application gives us the fu
 
                 currentUser = findProfileByEmail(email);  // This saved it I need an explination of how it worked HELP SOMEONE PLEASE FF
 
-                stage.setScene(scene3);
-                Text userNameText = new Text();
-                userNameText.setText("Welcome to Fitelligence!");
-                userNameText.setFont(Font.font("Verdana", 50));
-                StackPane.setAlignment(userNameText, TOP_CENTER);
-                userNameText.setTranslateY(20);
+                PageHOME home = new PageHOME(currentUser, stage);
 
-                Text AIWorkoutHelp = new Text();
-                AIWorkoutHelp.setText("Hello, " + currentUser.getName() + " Let's make today count!!");
-                AIWorkoutHelp.setFont(Font.font("Verdana", 30));
-                StackPane.setAlignment(AIWorkoutHelp, TOP_CENTER);
-                AIWorkoutHelp.setTranslateY(300);
-                AIWorkoutHelp.setTranslateX(-200);
-
-                AIChatBot.startChat(currentUser.toString()); // your existing AI logic
-
-// --- FOOD INPUTS ---
-                TextField foodNameField = new TextField();
-                foodNameField.setPromptText("Food Name");
-                foodNameField.setMaxWidth(200);
-                foodNameField.setTranslateX(-400);
-                foodNameField.setTranslateY(-200);
-
-                TextField caloriesField = new TextField();
-                caloriesField.setPromptText("Calories");
-                caloriesField.setMaxWidth(100);
-                caloriesField.setTranslateX(-400);
-                caloriesField.setTranslateY(-150);
-
-                TextField proteinField = new TextField();
-                proteinField.setPromptText("Protein");
-                proteinField.setMaxWidth(100);
-                proteinField.setTranslateX(-400);
-                proteinField.setTranslateY(-100);
-
-                TextField fatField = new TextField();
-                fatField.setPromptText("Fat");
-                fatField.setMaxWidth(100);
-                fatField.setTranslateX(-400);
-                fatField.setTranslateY(-50);
-
-                TextField carbField = new TextField();
-                carbField.setPromptText("Carbs");
-                carbField.setMaxWidth(100);
-                carbField.setTranslateX(-400);
-                carbField.setTranslateY(0);
-
-                Button addFoodBtn = new Button("Add Food");
-                addFoodBtn.setTranslateX(-400);
-                addFoodBtn.setTranslateY(50);
-
-                Text foodDisplay = new Text();
-                foodDisplay.setFont(Font.font("Verdana", 20));
-                foodDisplay.setTranslateX(-400);
-                foodDisplay.setTranslateY(150);
-                foodDisplay.setText(updateFoodDisplay(currentUser.getFoodTracker()));
-
-// --- EXERCISE INPUTS ---
-                TextField exNameField = new TextField();
-                exNameField.setPromptText("Exercise Name");
-                exNameField.setMaxWidth(200);
-                exNameField.setTranslateX(400);
-                exNameField.setTranslateY(-200);
-
-                TextField exDurationField = new TextField();
-                exDurationField.setPromptText("Duration (min)");
-                exDurationField.setMaxWidth(100);
-                exDurationField.setTranslateX(400);
-                exDurationField.setTranslateY(-150);
-
-                TextField exCaloriesField = new TextField();
-                exCaloriesField.setPromptText("Calories Burned");
-                exCaloriesField.setMaxWidth(100);
-                exCaloriesField.setTranslateX(400);
-                exCaloriesField.setTranslateY(-100);
-
-                Button addExerciseBtn = new Button("Add Exercise");
-                addExerciseBtn.setTranslateX(400);
-                addExerciseBtn.setTranslateY(-50);
-
-                Text exDisplay = new Text();
-                exDisplay.setFont(Font.font("Verdana", 20));
-                exDisplay.setTranslateX(400);
-                exDisplay.setTranslateY(50);
-                exDisplay.setText(updateExerciseDisplay(currentUser.getExerciseTracker()));
-
-// --- BUTTON ACTIONS ---
-                addFoodBtn.setOnAction(e -> {
-                    try {
-                        String nameFood = foodNameField.getText();
-                        double cal = Double.parseDouble(caloriesField.getText());
-                        double protein = Double.parseDouble(proteinField.getText());
-                        double fat = Double.parseDouble(fatField.getText());
-                        double carbs = Double.parseDouble(carbField.getText());
-
-                        Food f = new Food(cal, fat, nameFood, protein, java.time.LocalDateTime.now());
-                        currentUser.getFoodTracker().addFood(f);
-                        foodDisplay.setText(updateFoodDisplay(currentUser.getFoodTracker()));
-                        fileHandler.saveProfiles(profileList);
-
-                        foodNameField.clear();
-                        caloriesField.clear();
-                        proteinField.clear();
-                        fatField.clear();
-                        carbField.clear();
-                    } catch (Exception ex) {
-                        System.out.println("Invalid Food Input");
-                    }
-                });
-
-                addExerciseBtn.setOnAction(e -> {
-                    try {
-                        String name10 = exNameField.getText();
-                        int duration = Integer.parseInt(exDurationField.getText());
-                        double calBurned = Double.parseDouble(exCaloriesField.getText());
-
-                        currentUser.getExerciseTracker().addExercise(name10, duration, calBurned);
-                        exDisplay.setText(updateExerciseDisplay(currentUser.getExerciseTracker()));
-                        fileHandler.saveProfiles(profileList);
-
-                        exNameField.clear();
-                        exDurationField.clear();
-                        exCaloriesField.clear();
-                    } catch (Exception ex) {
-                        System.out.println("Invalid Exercise Input");
-                    }
-                });
-
-// --- ADD EVERYTHING TO ROOT ---
-                root3.getChildren().addAll(
-                        userNameText, AIWorkoutHelp,
-                        foodNameField, caloriesField, proteinField, fatField, carbField, addFoodBtn, foodDisplay,
-                        exNameField, exDurationField, exCaloriesField, addExerciseBtn, exDisplay
-
-                );
 
 
 
@@ -586,15 +304,45 @@ public class Main extends Application  {  // extends application gives us the fu
 
     private String updateFoodDisplay(FoodTracker tracker) {
         return "Food Tracker:\n" +
-                "Total Calories: " + tracker.CalculateTotalCalories() +
-                "\nProtein: " + tracker.calculatTotalprotein() +
-                "\nFat: " + tracker.calculatTotalfat() +
-                "\nCarbs: " + tracker.calculatTotalcarb();
+                "Total Calories: " + String.format("%.1f", tracker.CalculateTotalCalories()) +
+                "\nProtein: " + String.format("%.1f", tracker.calculatTotalprotein()) +
+                "\nFat: " + String.format("%.1f", tracker.calculatTotalfat()) +
+                "\nCarbs: " + String.format("%.1f", tracker.calculatTotalcarb());
     }
+
 
     private String updateExerciseDisplay(ExerciseTracker tracker) {
         return "Exercise Tracker:\n" +
                 "Total Calories Burned: " + tracker.getTotalCaloriesBurned() +
                 "\nTotal Duration (minutes): " + tracker.getTotalDurationMinutes();
     }
+     private void showError(String message, StackPane root) {
+         Text errorText = new Text(message);
+         errorText.setFont(Font.font("Verdana", 15));
+         errorText.setFill(javafx.scene.paint.Color.RED);
+         errorText.setTranslateY(400);
+
+         if (!root.getChildren().contains(errorText)) {
+             root.getChildren().add(errorText);
+
+             PauseTransition pause = new PauseTransition(Duration.seconds(3));
+             pause.setOnFinished(event -> root.getChildren().remove(errorText));
+             pause.play();
+         }
+     }
+
+     private void showSuccess(String message, StackPane root) {
+         Text successText = new Text(message);
+         successText.setFont(Font.font("Verdana", 15));
+         successText.setFill(javafx.scene.paint.Color.GREEN);
+         successText.setTranslateY(400);
+
+         if (!root.getChildren().contains(successText)) {
+             root.getChildren().add(successText);
+
+             PauseTransition pause = new PauseTransition(Duration.seconds(3));
+             pause.setOnFinished(event -> root.getChildren().remove(successText));
+             pause.play();
+         }
+     }
 }

@@ -1,4 +1,4 @@
-public enum HealthCondition {
+public enum ConditionHealth {
     NONE,
     DIABETES,
     Heart_Disease,
