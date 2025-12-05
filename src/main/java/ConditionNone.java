@@ -1,8 +1,8 @@
-public class NoCondition extends HealthConditions implements FoodAdvice {
-    public NoCondition() {
+public class ConditionNone extends ConditionsHealth implements FoodAdvice {
+    public ConditionNone() {
     }
 
-    public NoCondition(String conditionName, String conditionType, String conditionDescription) {
+    public ConditionNone(String conditionName, String conditionType, String conditionDescription) {
         super(conditionName, conditionType, conditionDescription);
     }
 

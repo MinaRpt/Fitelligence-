@@ -1,4 +1,4 @@
-public class GlutenIntolerance extends HealthConditions implements FoodAdvice{
+public class GlutenIntolerance extends ConditionsHealth implements FoodAdvice{
 
         public GlutenIntolerance() {
         }

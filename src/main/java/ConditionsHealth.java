@@ -1,14 +1,14 @@
-public abstract class HealthConditions {
+public abstract class ConditionsHealth {
     private String conditionName;
     private String conditionDescription;
     private String conditionType;
 
 
-    public HealthConditions(){
+    public ConditionsHealth(){
 
     }
 
-    public HealthConditions(String conditionDescription, String conditionName, String conditionType) {
+    public ConditionsHealth(String conditionDescription, String conditionName, String conditionType) {
         this.conditionDescription = conditionDescription;
         this.conditionName = conditionName;
         this.conditionType = conditionType;

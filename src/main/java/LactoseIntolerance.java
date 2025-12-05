@@ -1,4 +1,4 @@
-public class LactoseIntolerance extends HealthConditions implements FoodAdvice{
+public class LactoseIntolerance extends ConditionsHealth implements FoodAdvice{
 
 
     public LactoseIntolerance(){

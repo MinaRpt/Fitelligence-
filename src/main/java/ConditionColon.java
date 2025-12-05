@@ -1,7 +1,7 @@
-public class ColonCondition extends HealthConditions implements FoodAdvice {
-    public ColonCondition() {}
+public class ConditionColon extends ConditionsHealth implements FoodAdvice {
+    public ConditionColon() {}
 
-    public ColonCondition(String conditionName, String conditionType, String conditionDescription){
+    public ConditionColon(String conditionName, String conditionType, String conditionDescription){
         super(conditionName, conditionType, conditionDescription);
     }
 
