@@ -1,9 +1,9 @@
-public class KidneyDiseaseCondition extends HealthConditions implements FoodAdvice{
+public class ConditionKidneyDisease extends ConditionsHealth implements FoodAdvice{
 
-    public KidneyDiseaseCondition() {
+    public ConditionKidneyDisease() {
     }
 
-    public KidneyDiseaseCondition(String conditionName, String conditionType, String conditionDescription){
+    public ConditionKidneyDisease(String conditionName, String conditionType, String conditionDescription){
         super(conditionName, conditionType, conditionDescription);
     }
 
