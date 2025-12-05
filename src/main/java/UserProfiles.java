@@ -15,15 +15,15 @@ public class UserProfiles  implements Serializable {
     private int dailyCalories; // e.g., calories eaten today
     private int exerciseCalories; // calories burned today
     private int totalSteps;
-    public UserProfiles(String email, String name, int age, Gender gender, double height, double weight, ConditionHealth hc) {
+    public UserProfiles(String email, String name, int age, Gender gender, double height, double weight, ConditionHealth hc ,FitnessGoal fg) {
         this.email = email;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
+        this.fitnessGoal = FitnessGoal.valueOf(fg.toString());
         this.conditionHealth = ConditionHealth.valueOf(hc.toString());
-        this.fitnessGoal = FitnessGoal.MAINTAIN_WEIGHT;
         this.foodTracker = new FoodTracker();
         this.exerciseTracker = new ExerciseTracker();
         this.dailyCalories = 0;

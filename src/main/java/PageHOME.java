@@ -135,7 +135,7 @@ public class PageHOME {
                 Label goalLabel = new Label("Goal  " + userProfiles.getFitnessGoal());
                 goalLabel.getStyleClass().add("popup-label");
                 ComboBox<String> goalBox = new ComboBox<>();
-                goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAINt", "MAINTAIN_WEIGHT");
+                goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAIN", "MAINTAIN_WEIGHT");
                 goalBox.setPromptText("Select goal");
 
                 form.add(ageLabel, 0, 0);

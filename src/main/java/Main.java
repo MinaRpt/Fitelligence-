@@ -23,7 +23,7 @@ public class Main extends Application  {  // extends application gives us the fu
 
     String email;
     String password;
-    UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, ConditionHealth.NONE);
+    UserProfiles currentUser = new UserProfiles("", "", 0, Gender.MALE, 0, 0, ConditionHealth.NONE , FitnessGoal.MAINTAIN_WEIGHT);
     ArrayList<Account> accountList = new ArrayList<>();
     ArrayList<UserProfiles> profileList = new ArrayList<>();
     FileHandling fileHandler = new FileHandling();
@@ -116,6 +116,14 @@ public class Main extends Application  {  // extends application gives us the fu
         Healthconditionbox.setTranslateY(0);
 
 
+        ComboBox goalBox = new ComboBox();
+        goalBox.setPromptText("Choose Your Goal!");
+        goalBox.getItems().addAll("WEIGHT_LOSS","MUSCLE_GAIN", "MAINTAIN_WEIGHT");
+        goalBox.setTranslateY(50);
+
+
+
+
         Button SubmitButton = new Button("Submit");
         SubmitButton.setFont(Font.font("Verdana", 20));
         SubmitButton.setTranslateY(100);
@@ -132,8 +140,7 @@ public class Main extends Application  {  // extends application gives us the fu
 
 
                 ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
-                String chosenHealthCondition = conditionHealthSelected.toString();
-                String ChosenGender = selected.toString();
+                FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
                 currentUser.setName(name);
                 currentUser.setAge(userAge);
@@ -145,8 +152,9 @@ public class Main extends Application  {  // extends application gives us the fu
                 currentUser.setFoodTracker(foodTracker);
                 currentUser.setExerciseTracker(exerciseTracker);
                 profileList.add(currentUser);
-                fileHandler.saveProfiles(profileList);
+                currentUser.setFitnessGoal(ChosenGoal);
 
+                fileHandler.saveProfiles(profileList);
 
                 // yalla let's fliping create scene2 in a button because I can't do anything else and my brain stopped working flip this project
 
@@ -154,7 +162,7 @@ public class Main extends Application  {  // extends application gives us the fu
                 PageHOME home = new PageHOME(currentUser, stage);
             }
         });
-        root1.getChildren().addAll(nameField , age , WelcomingText  , heightField , weightField, SubmitButton , genderBox, Healthconditionbox);     // add the button to the scene for it to appear on the screen
+        root1.getChildren().addAll(nameField , age , WelcomingText  , heightField , weightField, SubmitButton , genderBox , goalBox , Healthconditionbox);     // add the button to the scene for it to appear on the screen
 
 
 
