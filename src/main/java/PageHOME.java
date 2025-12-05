@@ -75,6 +75,13 @@ public class PageHOME {
         Button dashboardBtn = new Button("Home");
         dashboardBtn.getStyleClass().add("menu-btn");
         dashboardBtn.setPrefWidth(190);
+        dashboardBtn.setOnAction(event -> {
+            PageHOME home = new PageHOME(userProfiles, stage);
+
+        });
+
+
+
 
         Button progressBtn = new Button("Progress");
         progressBtn.getStyleClass().add("menu-btn");
@@ -96,6 +103,8 @@ public class PageHOME {
                 card.setAlignment(Pos.TOP_LEFT);
                 card.getStyleClass().add("card"); // reuse card style from CSS
                 card.setMaxWidth(540);
+                card.setMaxWidth(Double.MAX_VALUE); // let it grow horizontally
+
 
                 Text cardTitle = new Text("Edit Profile");
                 cardTitle.setFont(Font.font(22));
@@ -107,25 +116,26 @@ public class PageHOME {
                 form.setHgap(12);
                 form.setPadding(new Insets(6, 0, 0, 0));
 
-                Label ageLabel = new Label("Age");
-                ageLabel.getStyleClass().add("label");
+                Label ageLabel = new Label("Age       " + userProfiles.getAge());
+                ageLabel.getStyleClass().add("popup-label");
+
                 TextField ageField = new TextField();
                 ageField.setPromptText("Years");
 
-                Label heightLabel = new Label("Height");
-                heightLabel.getStyleClass().add("label");
+                Label heightLabel = new Label("Height    " + userProfiles.getHeight());
+                heightLabel.getStyleClass().add("popup-label");
                 TextField heightField = new TextField();
                 heightField.setPromptText("cm (number)");
 
-                Label weightLabel = new Label("Weight");
-                weightLabel.getStyleClass().add("label");
+                Label weightLabel = new Label("Weight   " + userProfiles.getWeight());
+                weightLabel.getStyleClass().add("popup-label");
                 TextField weightField = new TextField();
                 weightField.setPromptText("kg (number)");
 
-                Label goalLabel = new Label("Goal");
-                goalLabel.getStyleClass().add("label");
+                Label goalLabel = new Label("Goal  " + userProfiles.getFitnessGoal());
+                goalLabel.getStyleClass().add("popup-label");
                 ComboBox<String> goalBox = new ComboBox<>();
-                goalBox.getItems().addAll("Lose weight", "Maintain weight", "Gain weight");
+                goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAINt", "MAINTAIN_WEIGHT");
                 goalBox.setPromptText("Select goal");
 
                 form.add(ageLabel, 0, 0);
@@ -161,8 +171,8 @@ public class PageHOME {
                     boolean valid = true;
                     StringBuilder err = new StringBuilder();
                     if (!ageText.matches("\\d{1,3}")) { valid = false; err.append("Enter a valid age (numbers)\\n"); }
-                    if (!heightText.matches("[0-9]+(\\\\.[0-9]+)?")) { valid = false; err.append("Enter a valid height (number)\\n"); }
-                    if (!weightText.matches("[0-9]+(\\\\.[0-9]+)?")) { valid = false; err.append("Enter a valid weight (number)\\n"); }
+                    if (!heightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid height (number)\\n"); }
+                    if (!weightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid weight (number)\\n"); }
                     if (goal == null || goal.isEmpty()) { valid = false; err.append("Select a goal\\n"); }
 
                     if (!valid) {
@@ -170,6 +180,7 @@ public class PageHOME {
                         alert.setTitle("Validation error");
                         alert.setHeaderText("Invalid input");
                         alert.setContentText(err.toString());
+                        System.out.println(err.toString());
                         alert.initOwner(stage);
                         alert.showAndWait();
                         return;
@@ -178,9 +189,27 @@ public class PageHOME {
                     Alert info = new Alert(Alert.AlertType.INFORMATION);
                     info.setTitle("Profile saved");
                     info.setHeaderText(null);
-                    info.setContentText("Profile updated:\nAge: " + ageText + "\nHeight: " + heightText + "\nWeight: " + weightText + "\nGoal: " + goal);
+
+                    Label content = new Label(
+                            "Profile updated:\nAge: " + ageText +
+                                    "\nHeight: " + heightText +
+                                    "\nWeight: " + weightText +
+                                    "\nGoal: " + goal
+                    );
+                    content.setFont(Font.font("Poppins SemiBold", 14)); // choose a nicer font and size
+                    content.setTextFill(Color.CYAN); // optional: match your theme
+                    content.setWrapText(true);
+                    info.getDialogPane().setContent(content);
                     info.initOwner(stage);
                     info.showAndWait();
+
+                    userProfiles.setAge(Integer.parseInt(ageText));
+                    userProfiles.setHeight(Double.parseDouble(heightText));
+                    userProfiles.setWeight(Double.parseDouble(weightText));
+                    FitnessGoal fitnessGoal = FitnessGoal.valueOf(goal.toString());
+                    userProfiles.setFitnessGoal(fitnessGoal);
+                    fileHandler.saveProfiles(profileList);
+
                     // close the popup after successful save
                     ((Stage) saveBtn.getScene().getWindow()).close();
                 });
@@ -193,8 +222,9 @@ public class PageHOME {
                 card.getChildren().addAll(cardTitle, form, buttons);
                 popupContainer.getChildren().add(card);
 
-                Scene popupScene = new Scene(popupContainer, 600, 420);
-//                if (cssUrl != null) popupScene.getStylesheets().add(cssUrl.toExternalForm());
+                Scene popupScene = new Scene(popupContainer, 870, 500);
+                URL cssUrl = getClass().getResource("/style.css");
+                if (cssUrl != null) popupScene.getStylesheets().add(cssUrl.toExternalForm());
 
                 Stage popup = new Stage();
                 popup.initOwner(stage);
@@ -209,18 +239,15 @@ public class PageHOME {
 
         });
 
-        Button FoodTracking = new Button("Food Tracking");
-        FoodTracking.getStyleClass().add("menu-btn");
-        FoodTracking.setPrefWidth(190);
 
-        Button ExerciseTracking = new Button("ExerciseTracking");
-        ExerciseTracking.getStyleClass().add("menu-btn");
-        ExerciseTracking.setPrefWidth(190);
+        Button tracking = new Button("Tracking");
+        tracking.getStyleClass().add("menu-btn");
+        tracking.setPrefWidth(190);
 
 
 
 
-        menu.getChildren().addAll(dashboardBtn, progressBtn , FoodTracking , ExerciseTracking , Profile );
+        menu.getChildren().addAll(dashboardBtn, progressBtn  , tracking , Profile );
 
 
         sidebar.getChildren().addAll(sideAnchor, menu );
@@ -256,7 +283,7 @@ public class PageHOME {
         // Only Food and Exercise cards (Water and Sleep removed as requested)
         VBox foodCard = createProgressCard("Food", userProfiles.getMacroCalorieGoal(userProfiles), userProfiles.getDailyCalories(),  "kcal", "Add");
 
-        VBox exerciseCard = createProgressCard("Exercise", 800, userProfiles.getExerciseCalories() , "Calories Burnt", "Add Calories");
+        VBox exerciseCard = createProgressCard("Exercise", 800, userProfiles.getTotalSteps() , "Steps", "Add Calories");
 
         progressCards.getChildren().addAll(foodCard, exerciseCard);
 
@@ -274,7 +301,7 @@ public class PageHOME {
         mealsContainer.setAlignment(Pos.TOP_LEFT); // align meals container to top so cards line up
 
 
-        Text Greetings = new Text("Good Morning, Mina! Let's make today count ");
+        Text Greetings = new Text("Good Morning, " + userProfiles.getName() + " ! Let's make today count ");
         Greetings.setFont(Font.font(30));
         Greetings.setFill(Color.WHITE);
         Greetings.getStyleClass().add("top-title");
@@ -433,8 +460,8 @@ public class PageHOME {
                     // For now, just log the output (replace with model update logic)
                     System.out.println("Added " + value + " to " + title + " (" + name + ")");
                     total.set(total.get() + (int)value);
-                    if (title.equals("Exercise")) {
-                        userProfiles.setExerciseCalories(total.get());
+                    if (title.equals("Steps")) {
+                        userProfiles.setTotalSteps(total.get());
                         fileHandler.saveProfiles(profileList);
                     }
                      else {
