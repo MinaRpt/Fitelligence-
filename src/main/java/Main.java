@@ -581,7 +581,7 @@ public class Main extends Application  {  // extends application gives us the fu
                 );
 
 
-
+// okie it should work now
             }
             else {
                 SignUpAndIn.setText("Account doesnn't exists please Signup!!");
