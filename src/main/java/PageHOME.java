@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -91,6 +92,7 @@ public class PageHOME {
         Advice.getStyleClass().add("menu-btn");
         Advice.setPrefWidth(190);
         Advice.setOnAction(event -> {
+            AdvicePage advicePage = new AdvicePage(userProfiles, stage);
 
 
 
@@ -102,8 +104,11 @@ public class PageHOME {
         Profile.setPrefWidth(190);
 
         Profile.setOnAction(new EventHandler<ActionEvent>() {
+
+
             @Override
             public void handle(ActionEvent actionEvent) {
+
                 VBox popupContainer = new VBox();
                 popupContainer.setAlignment(Pos.CENTER);
                 popupContainer.setPadding(new Insets(18));
@@ -111,9 +116,9 @@ public class PageHOME {
                 VBox card = new VBox(14);
                 card.setPadding(new Insets(20));
                 card.setAlignment(Pos.TOP_LEFT);
-                card.getStyleClass().add("card"); // reuse card style from CSS
+                card.getStyleClass().add("card");
                 card.setMaxWidth(540);
-                card.setMaxWidth(Double.MAX_VALUE); // let it grow horizontally
+                card.setMaxWidth(Double.MAX_VALUE);
 
                 Text cardTitle = new Text("Edit Profile");
                 cardTitle.setFont(Font.font(22));
@@ -123,29 +128,63 @@ public class PageHOME {
                 GridPane form = new GridPane();
                 form.setVgap(12);
                 form.setHgap(12);
-                form.setPadding(new Insets(6, 0, 0, 0));
+                form.setPadding(new Insets(15, 0, 0, 0));
 
                 Label ageLabel = new Label("Age       " + userProfiles.getAge());
                 ageLabel.getStyleClass().add("popup-label");
 
                 TextField ageField = new TextField();
                 ageField.setPromptText("Years");
+                ageField.setAlignment(Pos.CENTER_LEFT);
+
 
                 Label heightLabel = new Label("Height    " + userProfiles.getHeight());
                 heightLabel.getStyleClass().add("popup-label");
                 TextField heightField = new TextField();
                 heightField.setPromptText("cm (number)");
+                heightField.setAlignment(Pos.CENTER_LEFT);
+
 
                 Label weightLabel = new Label("Weight   " + userProfiles.getWeight());
                 weightLabel.getStyleClass().add("popup-label");
+
                 TextField weightField = new TextField();
                 weightField.setPromptText("kg (number)");
 
                 Label goalLabel = new Label("Goal  " + userProfiles.getFitnessGoal());
                 goalLabel.getStyleClass().add("popup-label");
+
                 ComboBox<String> goalBox = new ComboBox<>();
                 goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAIN", "MAINTAIN_WEIGHT");
                 goalBox.setPromptText("Select goal");
+                GridPane.setHgrow(goalBox, Priority.ALWAYS);
+                GridPane.setHalignment(goalBox, HPos.CENTER); // Align to right side of cell
+
+                Label conditionLabel = new Label("Health Condition: " +
+                        (userProfiles.getConditionHealth() != null ? userProfiles.getConditionHealth() : "None"));
+                conditionLabel.getStyleClass().add("popup-label");
+
+                ComboBox<String> conditionBox = new ComboBox<>();
+                conditionBox.getItems().addAll(
+                        "NONE",
+                        "DIABETES",
+                        "Heart_Disease",
+                        "Kidney_Disease",
+                        "ConditionGlutenTolerance",
+                        "ConditionColon",
+                        "ConditionLactoseTolerance"
+                );
+                conditionBox.setPromptText("Select Health Condition");
+                GridPane.setHgrow(conditionBox, Priority.ALWAYS);
+                GridPane.setHalignment(conditionBox, HPos.CENTER); // Align to right side of cell
+
+                // Set current values
+                if (userProfiles.getFitnessGoal() != null) {
+                    goalBox.setValue(userProfiles.getFitnessGoal().toString());
+                }
+                if (userProfiles.getConditionHealth() != null) {
+                    conditionBox.setValue(userProfiles.getConditionHealth().toString());
+                }
 
                 form.add(ageLabel, 0, 0);
                 form.add(ageField, 1, 0);
@@ -155,9 +194,11 @@ public class PageHOME {
                 form.add(weightField, 1, 2);
                 form.add(goalLabel, 0, 3);
                 form.add(goalBox, 1, 3);
+                form.add(conditionLabel, 0, 4);
+                form.add(conditionBox, 1, 4);
 
                 ColumnConstraints leftCol = new ColumnConstraints();
-                leftCol.setPercentWidth(35);
+                leftCol.setPercentWidth(50);
                 ColumnConstraints rightCol = new ColumnConstraints();
                 rightCol.setPercentWidth(65);
                 form.getColumnConstraints().addAll(leftCol, rightCol);
@@ -176,62 +217,61 @@ public class PageHOME {
                     String heightText = heightField.getText().trim();
                     String weightText = weightField.getText().trim();
                     String goal = goalBox.getValue();
-
+                    String condition = conditionBox.getValue();
                     boolean valid = true;
                     StringBuilder err = new StringBuilder();
-                    if (!ageText.matches("\\d{1,3}")) { valid = false; err.append("Enter a valid age (numbers)\\n"); }
-                    if (!heightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid height (number)\\n"); }
-                    if (!weightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid weight (number)\\n"); }
-                    if (goal == null || goal.isEmpty()) { valid = false; err.append("Select a goal\\n"); }
+
+                    if (!ageText.matches("\\d{1,3}")) { valid = false; err.append("Enter a valid age (numbers)\n"); }
+                    if (!heightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid height (number)\n"); }
+                    if (!weightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid weight (number)\n"); }
+                    if (goal == null || goal.isEmpty()) { valid = false; err.append("Select a goal\n"); }
+                    if (condition == null || condition.isEmpty()) { valid = false; err.append("Select a health condition\n"); }
 
                     if (!valid) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Validation error");
                         alert.setHeaderText("Invalid input");
                         alert.setContentText(err.toString());
-                        System.out.println(err.toString());
                         alert.initOwner(stage);
                         alert.showAndWait();
                         return;
                     }
 
+                    userProfiles.setAge(Integer.parseInt(ageText));
+                    userProfiles.setHeight(Double.parseDouble(heightText));
+                    userProfiles.setWeight(Double.parseDouble(weightText));
+                    userProfiles.setFitnessGoal(FitnessGoal.valueOf(goal));
+                    userProfiles.setConditionHealth(ConditionHealth.valueOf(condition));
+                    fileHandler.saveProfiles(profileList);
+
                     Alert info = new Alert(Alert.AlertType.INFORMATION);
                     info.setTitle("Profile saved");
                     info.setHeaderText(null);
-
                     Label content = new Label(
                             "Profile updated:\nAge: " + ageText +
                                     "\nHeight: " + heightText +
                                     "\nWeight: " + weightText +
-                                    "\nGoal: " + goal
+                                    "\nGoal: " + goal +
+                                    "\nHealth Condition: " + condition
                     );
-                    content.setFont(Font.font("Poppins SemiBold", 14)); // choose a nicer font and size
-                    content.setTextFill(Color.CYAN); // optional: match your theme
+                    content.setFont(Font.font("Poppins SemiBold", 14));
+                    content.setTextFill(Color.CYAN);
                     content.setWrapText(true);
                     info.getDialogPane().setContent(content);
                     info.initOwner(stage);
                     info.showAndWait();
 
-                    userProfiles.setAge(Integer.parseInt(ageText));
-                    userProfiles.setHeight(Double.parseDouble(heightText));
-                    userProfiles.setWeight(Double.parseDouble(weightText));
-                    FitnessGoal fitnessGoal = FitnessGoal.valueOf(goal.toString());
-                    userProfiles.setFitnessGoal(fitnessGoal);
-                    fileHandler.saveProfiles(profileList);
-
-                    // close the popup after successful save
                     ((Stage) saveBtn.getScene().getWindow()).close();
                 });
 
                 cancelBtn.setOnAction(ev -> {
-                    // close the popup without saving
                     ((Stage) cancelBtn.getScene().getWindow()).close();
                 });
 
                 card.getChildren().addAll(cardTitle, form, buttons);
                 popupContainer.getChildren().add(card);
 
-                Scene popupScene = new Scene(popupContainer, 870, 500);
+                Scene popupScene = new Scene(popupContainer, 870, 650);  // Increased to 650
                 URL cssUrl = getClass().getResource("/style.css");
                 if (cssUrl != null) popupScene.getStylesheets().add(cssUrl.toExternalForm());
 
@@ -242,8 +282,8 @@ public class PageHOME {
                 popup.setResizable(false);
                 popup.setScene(popupScene);
 
-                // show the popup immediately and wait
                 popup.showAndWait();
+
             }
         });
 
@@ -354,7 +394,7 @@ public class PageHOME {
         return card;
     }
 
-    private VBox createProgressCard(String title, int target, int currentThing ,  String unit, String buttonText) {
+    private VBox createProgressCard(String title, int target, int currentThing ,  String unit, String buttonText ) {
         VBox card = new VBox(10);
         card.setPrefSize(200, 150);
         card.setMinWidth(150);

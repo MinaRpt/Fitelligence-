@@ -9,17 +9,28 @@ public class ConditionGlutenTolerance extends ConditionsHealth implements FoodAd
 
     @Override
     public String getDietTips() {
-        return "";
+        return "Always check labels for hidden gluten.\",\n" +
+                "                \"Choose naturally gluten-free foods like fruits, vegetables, rice, and potatoes.\",\n" +
+                "                \"Use gluten-free flour alternatives such as almond flour or rice flour.\",\n" +
+                "              \n" +
+                "                \"Cook more meals at home to avoid contamination.";
     }
 
     @Override
     public String getLifestyleTips() {
-        return "";
+        return "Avoid eating out at places that don’t offer gluten-free options.\",\n" +
+                "                \n" +
+                "                \"Store gluten-free foods separately from other foods at home.\",\n" +
+                "                \"Use separate kitchen tools if someone else in the home uses gluten.\",\n" +
+                "                \"Join a gluten-free support community for recipes and learning";
     }
 
     @Override
     public String getImportantTips() {
-        return "";
+        return "Even small amounts of gluten can cause symptoms\",\n" +
+                "                \"Be cautious with sauces, soy sauce, and soups bec they often contain wheat.\",\n" +
+                "                \"Watch out for gluten in medications and supplements.\",\n" +
+                "                \"If symptoms continue, consult a doctor or dietitian.";
     }
 
     @Override

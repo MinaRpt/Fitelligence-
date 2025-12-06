@@ -8,17 +8,29 @@ public class ConditionNone extends ConditionsHealth implements FoodAdvice {
 
     @Override
     public String getDietTips() {
-        return "";
+        return "• Eat a variety of foods from all food groups\\n\" +\n" +
+                "               \"• Practice portion control\\n\" +\n" +
+                "               \"• Stay hydrated throughout the day\\n\" +\n" +
+                "               \"• Enjoy your meals mindfully\\n\" +\n" +
+                "               \"• Plan meals ahead for balanced nutrition";
     }
 
     @Override
     public String getLifestyleTips() {
-        return "";
+        return "• Regular physical activity (30 minutes daily)\\n\" +\n" +
+                "               \"• Adequate sleep (7-8 hours)\\n\" +\n" +
+                "               \"• Stress management techniques\\n\" +\n" +
+                "               \"• Social connections and support\\n\" +\n" +
+                "               \"• Regular health check-ups";
     }
 
     @Override
     public String getImportantTips() {
-        return "";
+        return "• Consult healthcare provider before major diet changes\\n\" +\n" +
+                "               \"• Stay hydrated, especially during exercise\\n\" +\n" +
+                "               \"• Listen to your body's signals\\n\" +\n" +
+                "               \"• Seek medical attention for persistent symptoms\\n\" +\n" +
+                "               \"• Regular check-ups are important";
     }
 
     @Override

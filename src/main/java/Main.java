@@ -99,7 +99,7 @@ public class Main extends Application {  // extends application gives us the fun
 
         ComboBox<String> Healthconditionbox = new ComboBox<>();
         Healthconditionbox.setPromptText("Choose Health Condition");
-        Healthconditionbox.getItems().addAll("DIABETES", "NONE");
+        Healthconditionbox.getItems().addAll("NONE" , "DIABETES" , "ConditionLactoseTolerance" , "ConditionColon" , "ConditionGlutenTolerance");
         Healthconditionbox.setTranslateY(0);
 
         ComboBox<String> goalBox = new ComboBox<>();
