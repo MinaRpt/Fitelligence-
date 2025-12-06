@@ -117,6 +117,7 @@ public class Main extends Application {  // extends application gives us the fun
                 String name = nameField.getText();
                 int userAge = Integer.parseInt(age.getText());
                 double weight = Double.parseDouble(weightField.getText());
+
                 double height = Double.parseDouble(heightField.getText());
 
                 Gender selected = Gender.valueOf(genderBox.getValue().toString());
@@ -170,16 +171,24 @@ public class Main extends Application {  // extends application gives us the fun
             @Override
             public void handle(ActionEvent actionEvent) {
                 email = emailField.getText();
-                password = Password.getText();
-                Account account = new Account(email, password);
-                boolean registeredAccount = accountService.SignUpCheck(account);
-                if (registeredAccount) {
-                    SignUpAndIn.setText("Signed Up Successfully!! Please SignIn");
-                    SignUpAndIn.setFont(Font.font("Verdana", 20));
-                    StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
-                    stage.setScene(scene1);
-                    accountList.add(account);
-                    fileHandler.addAccount(account);
+                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                    Text Error = new Text("Invalid Email Address!");
+                    Error.setFont(Font.font("Verdana", 20));
+                    Error.setTranslateY(5);
+                    root.getChildren().add(Error);
+                } else {
+
+                    password = Password.getText();
+                    Account account = new Account(email, password);
+                    boolean registeredAccount = accountService.SignUpCheck(account);
+                    if (registeredAccount) {
+                        SignUpAndIn.setText("Signed Up Successfully!! Please SignIn");
+                        SignUpAndIn.setFont(Font.font("Verdana", 20));
+                        StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
+                        stage.setScene(scene1);
+                        accountList.add(account);
+                        fileHandler.addAccount(account);
+                    }
                 }
             }
         });
