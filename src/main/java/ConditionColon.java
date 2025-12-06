@@ -37,4 +37,28 @@ public class ConditionColon extends ConditionsHealth implements FoodAdvice {
         };
     }
 
+    @Override
+    public String getDietTips() {
+        return "• Eat small, frequent meals\n" +
+                "• Choose low-fiber foods during flare-ups\n" +
+                "• Avoid spicy and greasy meals\n" +
+                "• Include yogurt for probiotics";
+    }
+
+    @Override
+    public String getLifestyleTips() {
+        return "• Drink plenty of water\n" +
+                "• Reduce stress\n" +
+                "• Do light exercise\n" +
+                "• Avoid eating too fast";
+    }
+
+    @Override
+    public String getImportantTips() {
+        return "• Avoid foods that cause gas\n" +
+                "• Limit caffeine\n" +
+                "• ask for help if pain becomes severe\n";
+
+    }
 }
+

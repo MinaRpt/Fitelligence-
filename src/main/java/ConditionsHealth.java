@@ -24,6 +24,11 @@ public abstract class ConditionsHealth {
     }
 
 
+    // here i added tips methods that must provide its own advice
+    public abstract String getDietTips();
+    public abstract String getLifestyleTips();
+    public abstract String getImportantTips();
+
 
     public abstract void getSafeFood();
 

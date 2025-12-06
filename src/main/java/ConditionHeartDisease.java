@@ -1,4 +1,6 @@
 public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvice{
+
+
     public ConditionHeartDisease() {
     }
 
@@ -8,6 +10,7 @@ public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvic
 
     @Override
     public void getSafeFood() {
+
     }
 
     @Override
@@ -31,5 +34,27 @@ public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvic
                 "fried foods",
                 "high fat meat"
         };
+    }
+    @Override
+    public String getDietTips() {
+        return "• Avoid fried foods and saturated fats\n" +
+                "• Use olive oil instead of butter\n" +
+                "• Eat oats, fruits, nuts, and vegetables";
+    }
+
+
+    @Override
+    public String getLifestyleTips() {
+        return "• Exercise moderately (walking, cycling)\n" +
+                "• Reduce stress and sleep well\n" +
+                "• Avoid smoking ";
+    }
+
+    // i added  important warnings the user should follow
+    @Override
+    public String getImportantTips() {
+        return "• Limit salt as much as possible\n" +
+                "• Monitor blood pressure regularly\n" +
+                "• Seek medical help if you feel chest pain";
     }
 }

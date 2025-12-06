@@ -9,6 +9,9 @@ public class FoodTracker implements Serializable {
         foodList = new ArrayList<>();
 
     }
+    public List<Food> getFoodList() {
+        return foodList;
+    }
 
     public void addFood(Food nut){
         foodList.add(nut);

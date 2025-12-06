@@ -36,4 +36,29 @@ public class ConditionKidneyDisease extends ConditionsHealth implements FoodAdvi
                 "Beans "
         };
     }
+// i added some tips for kidney disease
+    @Override
+    public String getDietTips() {
+        return "• Choose low-potassium fruits like apples, berries, and grapes\n" +
+                "• Use low-sodium seasonings instead of salt\n" +
+                "• Prefer white rice over whole grains \n";
+
+    }
+
+    @Override
+    public String getLifestyleTips() {
+        return "• Drink water according to doctor instructions \n" +
+                "• Avoid bodybuilding supplements or protein powders\n" +
+                "• Maintain a healthy blood pressure\n" +
+                "• Exercise lightly and consistently";
+    }
+
+    @Override
+    public String getImportantTips() {
+        return
+                "• Monitor swelling and report if it increases\n" +
+                "• Follow a low-sodium and low-potassium diet strictly\n" +
+                "• Avoid processed, canned, or packaged foods";
+    }
 }
+

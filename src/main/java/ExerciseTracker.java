@@ -23,6 +23,12 @@ public class ExerciseTracker implements Serializable {
         totalCaloriesBurned += caloriesBurned;
     }
 
+    public void removeExercise(Exercise exercise) {
+        if (exerciseEntries.remove(exercise)) {
+            totalCaloriesBurned -= exercise.getCalories();
+        }
+    }
+
     public double getTotalCaloriesBurned() {
         return totalCaloriesBurned;
     }

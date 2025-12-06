@@ -179,6 +179,32 @@ public class AIChatBot {
         } catch (Exception e) {
             return "Hi there! Ask me about food and nutrition!";
         }
+
+
+
+    }
+
+    public static String CalculateStepsBurnCalories(String data) {
+        System.out.println(data);
+
+        String userInput =
+                data + "\nYou are a food nutrition calculator.\n" +
+                        "Interpret the food input as best as possible.\n" +
+                        "Return ONLY the total carbohydrates (in grams) for the given food and weight.\n" +
+                        "If the food is a mixed dish, assume typical ingredients.\n" +
+                        "If the input is unclear or misspelled, guess the closest valid food.\n" +
+                        "Output ONLY a number. If you absolutely cannot guess, output F.";
+
+        System.out.println(userInput);
+
+        try {
+            String response = getGeminiResponse(userInput);
+            System.out.println("🤖 " + response);
+            return response;
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
+            return "Error";
+        }
     }
 }
 
