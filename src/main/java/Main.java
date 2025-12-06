@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.animation.PauseTransition;
+import javafx.scene.control.Alert;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
@@ -74,6 +75,7 @@ public class Main extends Application {  // extends application gives us the fun
         nameField.setMaxHeight(40);
         nameField.setTranslateY(-250);
 
+
         TextField age = new TextField();
         age.setPromptText("Enter your Age ex. 20");
         age.setMaxWidth(400);
@@ -113,6 +115,23 @@ public class Main extends Application {  // extends application gives us the fun
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                if (nameField.getText().isEmpty()) {
+                    showError ("Please Enter Your Name");
+                    return;
+                }
+                if (!age.getText().matches("[0-9]+")) {
+                    showError ("Age Must Be A Number");
+                    return;
+                    }
+                if (!weightField.getText().matches("\\d+(\\.\\d+)?")) {
+                    showError ("Weight Must Be In Number");
+                    return;
+                    }
+                if (!heightField.getText().matches("\\d+(\\.\\d+)?")) {
+                    showError ("height Must Be In Number");
+                    return;
+                    }
+
 
                 String name = nameField.getText();
                 int userAge = Integer.parseInt(age.getText());
@@ -278,6 +297,14 @@ public class Main extends Application {  // extends application gives us the fun
             pause.play();
         }
 
+
+    }
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
