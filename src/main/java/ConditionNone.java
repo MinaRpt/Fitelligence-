@@ -12,12 +12,29 @@ public class ConditionNone extends ConditionsHealth implements FoodAdvice {
 
     @Override
     public String[] getRecommendations() {
-        return new String[0];
+        return new String[]{
+                "Whole grains",
+                "Lean proteins",
+                "Vegetables",
+                "Fruits",
+                "Nuts and seeds",
+                "Olive oil",
+                "Legumes",
+                "Low-fat dairy"
+
+        };
     }
 
     @Override
     public String[] getRestrictions() {
-        return new String[0];
+        return new String[]{
+                "Excess sugar",
+                "Excess salt",
+                "Junk food",
+                "Too many fried foods",
+                "Soft drinks",
+                "Processed meats"
+        };
     }
 
 }

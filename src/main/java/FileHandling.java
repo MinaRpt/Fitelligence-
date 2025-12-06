@@ -13,8 +13,41 @@ public class FileHandling {
 //        }
 //    }
 
+    public void addAccount(Account newAccount) {
+        ArrayList<Account> accounts = loadAccounts(); // Load old list
+        accounts.add(newAccount);                     // Add new account
+        saveAccounts(accounts);                       // Save whole list back
+    }
 
-//    public void saveAccounts(ArrayList<Account> accounts) {
+    public void editProfile(UserProfiles updatedProfile) {
+        ArrayList<UserProfiles> profiles = loadProfiles();  // Load existing profiles
+
+        boolean found = false;
+
+        for (int i = 0; i < profiles.size(); i++) {
+            if (profiles.get(i).getEmail().equals(updatedProfile.getEmail())) {
+                profiles.set(i, updatedProfile);   // Replace old with updated
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            saveProfiles(profiles);   // Save updated list
+            System.out.println("Profile updated successfully.");
+        } else {
+            System.out.println("Profile not found, nothing updated.");
+        }
+    }
+
+
+    public void addProfile(UserProfiles newProfile) {
+        ArrayList<UserProfiles> profiles = loadProfiles();
+        profiles.add(newProfile);
+        saveProfiles(profiles);
+    }
+
+    //    public void saveAccounts(ArrayList<Account> accounts) {
 //        try (FileWriter writer = new FileWriter("accounts.txt")) {
 //            for (Account acc : accounts) {
 //                writer.write(acc.toString() + "\n");

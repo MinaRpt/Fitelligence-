@@ -23,13 +23,10 @@ public abstract class ConditionsHealth {
         return conditionType;
     }
 
-    //here i provided tips methods so each condition provaids its own advice
-    public abstract String getDietTips();
-    public abstract String getLifestyleTips();
-    public abstract String getImportantTips();
 
 
-    //i made a  Safe food method for extra information
+
+
     public abstract void getSafeFood();
 
 }
