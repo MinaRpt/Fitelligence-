@@ -55,6 +55,6 @@ public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvic
     public String getImportantTips() {
         return "• Limit salt as much as possible\n" +
                 "• Monitor blood pressure regularly\n" +
-                "• Seek medical help if you feel chest painm";
+                "• Seek medical help if you feel chest pain";
     }
 }
