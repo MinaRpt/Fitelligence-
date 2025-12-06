@@ -1,9 +1,9 @@
-public class GlutenIntolerance extends ConditionsHealth implements FoodAdvice{
+public class ConditionGlutenTolerance extends ConditionsHealth implements FoodAdvice{
 
-        public GlutenIntolerance() {
+        public ConditionGlutenTolerance() {
         }
 
-        public GlutenIntolerance (String conditionDescription, String conditionName,String conditionType) {
+        public ConditionGlutenTolerance(String conditionDescription, String conditionName, String conditionType) {
             super(conditionDescription, conditionName, conditionType);
         }
 
