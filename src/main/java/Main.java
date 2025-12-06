@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.animation.PauseTransition;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
@@ -45,6 +46,10 @@ public class Main extends Application {  // extends application gives us the fun
         if (loadedAccounts == null) loadedAccounts = new ArrayList<>();
         accountService = new AccountService(loadedAccounts);
 
+
+        Image icon = new Image(getClass().getResourceAsStream("/logo.jpeg"));
+        stage.getIcons().add(icon);
+
         ArrayList<UserProfiles> loadedProfiles = fileHandler.loadProfiles();
         if (loadedProfiles == null) loadedProfiles = new ArrayList<>();
         profileList = loadedProfiles;
@@ -74,11 +79,23 @@ public class Main extends Application {  // extends application gives us the fun
         nameField.setMaxHeight(40);
         nameField.setTranslateY(-250);
 
+        Text namePlace = new Text();
+        namePlace.setText("Name");
+        namePlace.setFont(Font.font("Verdana", 20));
+        namePlace.setTranslateX(-250);
+        namePlace.setTranslateY(-250);
+
         TextField age = new TextField();
         age.setPromptText("Enter your Age ex. 20");
         age.setMaxWidth(400);
         age.setMaxHeight(40);
         age.setTranslateY(-200);
+
+        Text agePlace = new Text();
+        agePlace.setText("age");
+        agePlace.setFont(Font.font("Verdana", 20));
+        agePlace.setTranslateX(-250);
+        agePlace.setTranslateY(-200);
 
         TextField heightField = new TextField();
         heightField.setPromptText("Enter your Height ex. 170cm");
@@ -86,16 +103,34 @@ public class Main extends Application {  // extends application gives us the fun
         heightField.setMaxHeight(40);
         heightField.setTranslateY(-150);
 
+        Text heightPlace = new Text();
+        heightPlace.setText("Height");
+        heightPlace.setFont(Font.font("Verdana", 20));
+        heightPlace.setTranslateX(-250);
+        heightPlace.setTranslateY(-150);
+
+
         TextField weightField = new TextField();
         weightField.setPromptText("Enter your Weight ex. 99kg");
         weightField.setMaxWidth(400);
         weightField.setMaxHeight(40);
         weightField.setTranslateY(-100);
 
+        Text weightPlace = new Text();
+        weightPlace.setText("Weight");
+        weightPlace.setFont(Font.font("Verdana", 20));
+        weightPlace.setTranslateX(-250);
+        weightPlace.setTranslateY(-100);
+
         ComboBox<String> genderBox = new ComboBox<>();
         genderBox.setPromptText("Choose Gender");
         genderBox.getItems().addAll("MALE", "FEMALE");
         genderBox.setTranslateY(-50);
+
+        Text genderText = new Text();
+        genderText.setText("Gender");
+        genderText.setFont(Font.font("Verdana", 20));
+        genderText.setTranslateX(-250);
 
         ComboBox<String> Healthconditionbox = new ComboBox<>();
         Healthconditionbox.setPromptText("Choose Health Condition");
@@ -143,7 +178,7 @@ public class Main extends Application {  // extends application gives us the fun
             }
         });
 
-        root1.getChildren().addAll(nameField, age, WelcomingText, heightField, weightField, SubmitButton, genderBox, goalBox, Healthconditionbox);
+        root1.getChildren().addAll(namePlace , weightPlace , heightPlace ,   agePlace , nameField, age, WelcomingText, heightField, weightField, SubmitButton, genderBox, goalBox, Healthconditionbox);
 
         // --- LOGIN SCENE ---
         Text text = new Text();
