@@ -7,7 +7,22 @@ public class ConditionGlutenTolerance extends ConditionsHealth implements FoodAd
             super(conditionDescription, conditionName, conditionType);
         }
 
-        @Override
+    @Override
+    public String getDietTips() {
+        return "";
+    }
+
+    @Override
+    public String getLifestyleTips() {
+        return "";
+    }
+
+    @Override
+    public String getImportantTips() {
+        return "";
+    }
+
+    @Override
         public void getSafeFood () {
         }
 

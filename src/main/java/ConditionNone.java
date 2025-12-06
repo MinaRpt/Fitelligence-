@@ -7,6 +7,21 @@ public class ConditionNone extends ConditionsHealth implements FoodAdvice {
     }
 
     @Override
+    public String getDietTips() {
+        return "";
+    }
+
+    @Override
+    public String getLifestyleTips() {
+        return "";
+    }
+
+    @Override
+    public String getImportantTips() {
+        return "";
+    }
+
+    @Override
     public void getSafeFood() {
     }
 

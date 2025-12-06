@@ -1,23 +1,23 @@
 public class ConditionColon extends ConditionsHealth implements FoodAdvice {
-
     public ConditionColon() {}
 
-    public ConditionColon(String conditionDescription, String conditionName, String conditionType) {
-        super(conditionDescription, conditionName, conditionType);
+    public ConditionColon(String conditionName, String conditionType, String conditionDescription){
+        super(conditionName, conditionType, conditionDescription);
     }
 
     @Override
-    public void getSafeFood() {}
+    public void getSafeFood() {
+    }
 
     @Override
     public String[] getRecommendations() {
-        return new String[]{
+        return new String[] {
                 "Bananas",
                 "Applesauce",
-                "White rice",
+                "White Rice",
                 "Toast",
-                "Boiled potatoes",
-                "Grilled chicken",
+                "Boiled Potatoes",
+                "Grilled Chicken ",
                 "Yogurt",
                 "Cucumber",
                 "Zucchini"
@@ -25,15 +25,15 @@ public class ConditionColon extends ConditionsHealth implements FoodAdvice {
     }
 
     @Override
-    public String[] getRestrictions() {
+    public String[] getRestrictions (){
         return new String[]{
-                "Spicy foods",
-                "Fried foods",
-                "High-fat meals",
-                "Beans",
-                "Large amounts of dairy",
-                "Broccoli",
-                "Cabbage"
+                "Spicy Food ",
+                "Fried Foods ",
+                "High fat meals",
+                "Bean : gas-forming",
+                "Large ammount of dairy " ,
+                "Broccoli   ",
+                "Cabbage "
         };
     }
 
@@ -57,7 +57,7 @@ public class ConditionColon extends ConditionsHealth implements FoodAdvice {
     public String getImportantTips() {
         return "• Avoid foods that cause gas\n" +
                 "• Limit caffeine\n" +
-                "• ask for help if pain becomes severe\n" +
+                "• ask for help if pain becomes severe\n";
 
     }
 }
