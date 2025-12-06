@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 
@@ -206,6 +207,8 @@ public class Main extends Application {  // extends application gives us the fun
             @Override
             public void handle(ActionEvent actionEvent) {
                 email = emailField.getText();
+                EmailValidator validator = EmailValidator.getInstance();
+//                if (!validator.isValid(email)) {}     This also can be used but I prefer the one that you did
                 if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
                     Text Error = new Text("Invalid Email Address!");
                     Error.setFont(Font.font("Verdana", 20));
