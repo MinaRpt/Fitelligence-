@@ -36,5 +36,4 @@ public class ConditionColon extends ConditionsHealth implements FoodAdvice {
                 "Cabbage "
         };
     }
-
 }
