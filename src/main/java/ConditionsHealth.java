@@ -25,6 +25,8 @@ public abstract class ConditionsHealth {
 
 
 
+
+
     public abstract void getSafeFood();
 
 }

@@ -1,4 +1,6 @@
 public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvice{
+
+
     public ConditionHeartDisease() {
     }
 
@@ -8,6 +10,7 @@ public class ConditionHeartDisease extends ConditionsHealth implements FoodAdvic
 
     @Override
     public void getSafeFood() {
+
     }
 
     @Override
