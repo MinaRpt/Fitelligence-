@@ -1,14 +1,14 @@
-public abstract class HealthConditions {
+public abstract class ConditionsHealth {
     private String conditionName;
     private String conditionDescription;
     private String conditionType;
 
 
-    public HealthConditions(){
+    public ConditionsHealth(){
 
     }
 
-    public HealthConditions(String conditionDescription, String conditionName, String conditionType) {
+    public ConditionsHealth(String conditionDescription, String conditionName, String conditionType) {
         this.conditionDescription = conditionDescription;
         this.conditionName = conditionName;
         this.conditionType = conditionType;
@@ -23,6 +23,11 @@ public abstract class HealthConditions {
         return conditionType;
     }
 
+
+    // here i added tips methods that must provide its own advice
+    public abstract String getDietTips();
+    public abstract String getLifestyleTips();
+    public abstract String getImportantTips();
 
 
     public abstract void getSafeFood();
