@@ -268,5 +268,7 @@ public class Main extends Application {  // extends application gives us the fun
             pause.setOnFinished(event -> root.getChildren().remove(successText));
             pause.play();
         }
+
     }
+
 }

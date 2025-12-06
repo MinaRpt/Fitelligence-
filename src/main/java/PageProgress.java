@@ -1,7 +1,3 @@
-import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -19,27 +15,23 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 
-public class AdvicePage {
+public class PageProgress {
 
     private UserProfiles userProfiles;
     private FileHandling fileHandler;
     private ArrayList<UserProfiles> profileList;
 
-    public AdvicePage(UserProfiles userProfiles, Stage stage) {
+    public PageProgress(UserProfiles userProfiles, Stage stage) {
         this.userProfiles = userProfiles;
         this.fileHandler = new FileHandling();
 
-        // SAFE LOADING: avoid NullPointerException
         this.profileList = fileHandler.loadProfiles();
         if (this.profileList == null) {
             this.profileList = new ArrayList<>();
         }
 
-        // Check if user profile already exists
         UserProfiles existingProfile = findProfileByEmail(userProfiles.getEmail());
-
         if (existingProfile != null) {
             this.userProfiles = existingProfile;
         } else {
@@ -55,13 +47,14 @@ public class AdvicePage {
         HBox root = new HBox();
         root.setPrefSize(1400, 700);
 
-        // Sidebar
         VBox sidebar = new VBox();
-        sidebar.setPrefWidth(250);
-        sidebar.setPrefHeight(700);
+        sidebar.setPrefWidth(220);
+        sidebar.setMinWidth(220);
+        sidebar.setMaxWidth(220);
         sidebar.getStyleClass().add("sidebar");
+        sidebar.setAlignment(Pos.TOP_LEFT);
 
-        // Profile Section
+        // Sidebar header - FIXED
         AnchorPane sideAnchor = new AnchorPane();
         sideAnchor.setPrefHeight(100);
         sideAnchor.setPrefWidth(250);
@@ -73,7 +66,6 @@ public class AdvicePage {
         username.setLayoutY(60);
         sideAnchor.getChildren().add(username);
 
-        // Menu Buttons
         VBox menu = new VBox(15);
         menu.setPadding(new Insets(20, 0, 0, 30));
 
@@ -92,7 +84,7 @@ public class AdvicePage {
         Advice.getStyleClass().add("menu-btn");
         Advice.setPrefWidth(190);
         Advice.setOnAction(event -> {
-            // Already on advice page
+            PageAdvice pageAdvice = new PageAdvice(userProfiles, stage);
         });
 
         Button Profile = new Button("Profile");
@@ -130,13 +122,11 @@ public class AdvicePage {
                 ageField.setPromptText("Years");
                 ageField.setAlignment(Pos.CENTER_LEFT);
 
-
                 Label heightLabel = new Label("Height    " + userProfiles.getHeight());
                 heightLabel.getStyleClass().add("popup-label");
                 TextField heightField = new TextField();
                 heightField.setPromptText("cm (number)");
                 heightField.setAlignment(Pos.CENTER_LEFT);
-
 
                 Label weightLabel = new Label("Weight   " + userProfiles.getWeight());
                 weightLabel.getStyleClass().add("popup-label");
@@ -151,7 +141,7 @@ public class AdvicePage {
                 goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAIN", "MAINTAIN_WEIGHT");
                 goalBox.setPromptText("Select goal");
                 GridPane.setHgrow(goalBox, Priority.ALWAYS);
-                GridPane.setHalignment(goalBox, HPos.CENTER); // Align to right side of cell
+                GridPane.setHalignment(goalBox, HPos.CENTER);
 
                 Label conditionLabel = new Label("Health Condition: " +
                         (userProfiles.getConditionHealth() != null ? userProfiles.getConditionHealth() : "None"));
@@ -169,9 +159,8 @@ public class AdvicePage {
                 );
                 conditionBox.setPromptText("Select Health Condition");
                 GridPane.setHgrow(conditionBox, Priority.ALWAYS);
-                GridPane.setHalignment(conditionBox, HPos.CENTER); // Align to right side of cell
+                GridPane.setHalignment(conditionBox, HPos.CENTER);
 
-                // Set current values
                 if (userProfiles.getFitnessGoal() != null) {
                     goalBox.setValue(userProfiles.getFitnessGoal().toString());
                 }
@@ -204,7 +193,6 @@ public class AdvicePage {
                 cancelBtn.getStyleClass().add("buttonedit");
                 buttons.getChildren().addAll(cancelBtn, saveBtn);
 
-                // Save validation
                 saveBtn.setOnAction(ev -> {
                     String ageText = ageField.getText().trim();
                     String heightText = heightField.getText().trim();
@@ -213,18 +201,6 @@ public class AdvicePage {
                     String condition = conditionBox.getValue();
                     boolean valid = true;
                     StringBuilder err = new StringBuilder();
-
-                    /*\\d+(\\.\\d+)? means: "one or more digits, optionally followed by a decimal point and more digits"
-
-                    \\d+ = one or more digits
-
-                     (\\.\\d+)? = optional group: decimal point followed by one or more digits
-
-                     Examples that PASS: "150", "175.5", "180.25"
-
-E                    xamples that FAIL: "abc", "175.", ".5", ""
-
-                     */
 
                     if (!ageText.matches("\\d{1,3}")) { valid = false; err.append("Enter a valid age (numbers)\n"); }
                     if (!heightText.matches("\\d+(\\.\\d+)?")) { valid = false; err.append("Enter a valid height (number)\n"); }
@@ -267,6 +243,9 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
                     info.showAndWait();
 
                     ((Stage) saveBtn.getScene().getWindow()).close();
+
+                    // Refresh page
+                    PageProgress pageProgress = new PageProgress(userProfiles, stage);
                 });
 
                 cancelBtn.setOnAction(ev -> {
@@ -276,27 +255,36 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
                 card.getChildren().addAll(cardTitle, form, buttons);
                 popupContainer.getChildren().add(card);
 
-                Scene popupScene = new Scene(popupContainer, 870, 650);  // Increased to 650
+                Scene popupScene = new Scene(popupContainer, 870, 650);
                 URL cssUrl = getClass().getResource("/style.css");
                 if (cssUrl != null) popupScene.getStylesheets().add(cssUrl.toExternalForm());
 
                 Stage popup = new Stage();
                 popup.initOwner(stage);
-                popup.initModality(Modality.APPLICATION_MODAL); // This blocks the user from fliping interacting with anytthing else so he doesn't break me
+                popup.initModality(Modality.APPLICATION_MODAL);
                 popup.setTitle("Edit Profile");
                 popup.setResizable(false);
                 popup.setScene(popupScene);
 
                 popup.showAndWait();
-
             }
         });
 
-        Button tracking = new Button("Tracking");
+        Button Exercise = new Button("Exercise");
+        Exercise.getStyleClass().add("menu-btn");
+        Exercise.setPrefWidth(190);
+        Exercise.setOnAction(event -> {
+            PageExercise pageExercise = new PageExercise(userProfiles, stage);
+        });
+
+        Button tracking = new Button("Food-Tracking");
         tracking.getStyleClass().add("menu-btn");
         tracking.setPrefWidth(190);
+        tracking.setOnAction(event -> {
+            PageTracking pageTracking = new PageTracking(userProfiles, stage);
+        });
 
-        menu.getChildren().addAll(dashboardBtn, progressBtn, tracking, Advice, Profile);
+        menu.getChildren().addAll(dashboardBtn, progressBtn, tracking, Exercise, Advice, Profile);
         sidebar.getChildren().addAll(sideAnchor, menu);
 
         // Main Content
@@ -312,108 +300,100 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
         topBar.getStyleClass().add("top-bar");
         topBar.setAlignment(Pos.CENTER_LEFT);
 
-        Text topTitle = new Text("Health & Nutrition Advice");
+        Text topTitle = new Text("Your Progress Dashboard");
         topTitle.setFont(Font.font(32));
         topTitle.getStyleClass().add("top-title");
         topTitle.setTranslateX(350);
         topBar.getChildren().add(topTitle);
 
-        // Main content area that will contain the cards
-        VBox contentArea = new VBox();
-        contentArea.setPadding(new Insets(20));
-        contentArea.setSpacing(20);
-        VBox.setVgrow(contentArea, Priority.ALWAYS);
+        // Content Area - ONLY GOOD CARDS
+        VBox contentArea = new VBox(30);
+        contentArea.setPadding(new Insets(30));
 
-        // Create a grid for cards
-        GridPane cardsGrid = new GridPane();
-        cardsGrid.setHgap(20);
-        cardsGrid.setVgap(20);
-        cardsGrid.setPadding(new Insets(10));
+        // Row 1: 4 BIG STAT CARDS
+        HBox statsRow = new HBox(30);
+        statsRow.setPrefHeight(220);
 
-        // Allow grid to expand
-        GridPane.setHgrow(cardsGrid, Priority.ALWAYS);
-        GridPane.setVgrow(cardsGrid, Priority.ALWAYS);
-        cardsGrid.setMaxWidth(Double.MAX_VALUE);
-        cardsGrid.setMaxHeight(Double.MAX_VALUE);
+        // Current Weight Card
+        VBox weightCard = createBigStatCard("Current Weight",
+                String.format("%.1f kg", userProfiles.getWeight()),
+                "Keep it steady! 💪", Color.CYAN, "⚖️");
 
-        // Get user's condition from enum
-        ConditionHealth userCondition = userProfiles.getConditionHealth();
-        if (userCondition == null) {
-            userCondition = ConditionHealth.NONE;
-        }
+        // BMI Card
+        double bmi = userProfiles.calculateBMI(userProfiles.getWeight(), userProfiles.getHeight());
+        VBox bmiCard = createBigStatCard("Your BMI",
+                String.format("%.1f", bmi),
+                getBMIDescription(bmi), getBMIColor(bmi), "📊");
 
-        // Create the appropriate condition object
-        ConditionsHealth conditionObject = null;
+        // Calories Card
+        int calorieGoal = userProfiles.getMacroCalorieGoal(userProfiles);
+        VBox caloriesCard = createBigStatCard("Daily Calories",
+                userProfiles.getDailyCalories() + " / " + calorieGoal,
+                "Stay on track! 🎯", getCalorieColor(userProfiles.getDailyCalories(), calorieGoal), "🔥");
 
-        switch (userCondition) {
-            case DIABETES:
-                conditionObject = new ConditionDiabetes("Diabetes condition", "Diabetes", "Metabolic");
-                break;
-            case Heart_Disease:
-                conditionObject = new ConditionHeartDisease("Heart Disease condition", "Heart Disease", "Cardiovascular");
-                break;
-            case Kidney_Disease:
-                conditionObject = new ConditionKidneyDisease("Kidney Disease condition", "Kidney Disease", "Renal");
-                break;
-            case ConditionColon:
-                conditionObject = new ConditionColon("Colon condition", "Colon Issues", "Digestive");
-                break;
-            case ConditionGlutenTolerance:
-                conditionObject = new ConditionGlutenTolerance("Gluten Tolerance condition", "Gluten Intolerance", "Digestive");
-                break;
-            case ConditionLactoseTolerance:
-                conditionObject = new ConditionLactoseTolerance("Lactose Tolerance condition", "Lactose Intolerance", "Digestive");
-                break;
-            case NONE:
-            default:
-                // No specific condition - will use default cards
-                conditionObject = new ConditionNone("No specific condition", "General Health", "General");
-                break;
-        }
+        // Steps Card
+        VBox stepsCard = createBigStatCard("Daily Steps",
+                userProfiles.getTotalSteps() + " steps",
+                getStepsMessage(userProfiles.getTotalSteps()),
+                getStepsColor(userProfiles.getTotalSteps()), "👣");
 
-        // Cast to FoodAdvice if needed (since all condition classes implement both)
-        FoodAdvice foodAdvice = (FoodAdvice) conditionObject;
+        statsRow.getChildren().addAll(weightCard, bmiCard, caloriesCard, stepsCard);
+        HBox.setHgrow(weightCard, Priority.ALWAYS);
+        HBox.setHgrow(bmiCard, Priority.ALWAYS);
+        HBox.setHgrow(caloriesCard, Priority.ALWAYS);
+        HBox.setHgrow(stepsCard, Priority.ALWAYS);
 
-        // Create cards using both ConditionsHealth and FoodAdvice methods
-        VBox card1 = createProgressCard("Recommended Foods",
-                formatAsBulletList(foodAdvice.getRecommendations()));
+        // Row 2: Health & Goal BIG CARDS
+        HBox infoRow = new HBox(30);
+        infoRow.setPrefHeight(280);
 
-        VBox card2 = createProgressCard("Foods to Avoid",
-                formatAsBulletList(foodAdvice.getRestrictions()));
+        // Health Conditions Card
+        VBox healthCard = new VBox(20);
+        healthCard.getStyleClass().add("card");
+        healthCard.setPadding(new Insets(30));
+        healthCard.setPrefWidth(550);
 
-        VBox card3 = createProgressCard("General Advice",
-                conditionObject.getDietTips());
+        Text healthTitle = new Text("Health Condition");
+        healthTitle.setFont(Font.font(26));
+        healthTitle.setFill(Color.WHITE);
 
-        VBox card4 = createProgressCard("Daily Routine Tips",
-                conditionObject.getLifestyleTips());
+        Text healthText = new Text(getFormattedHealthCondition(userProfiles.getConditionHealth()));
+        healthText.setFont(Font.font(22));
+        healthText.setFill(Color.LIGHTGREEN);
 
-        VBox card5 = createProgressCard("Warnings",
-                conditionObject.getImportantTips());
+        Text healthTip = new Text(getHealthConditionTip(userProfiles.getConditionHealth()));
+        healthTip.setFont(Font.font(16));
+        healthTip.setFill(Color.LIGHTGRAY);
+        healthTip.setWrappingWidth(500);
 
-        // Add cards to grid in 2x3 layout
-        cardsGrid.add(card1, 0, 0);
-        cardsGrid.add(card2, 1, 0);
-        cardsGrid.add(card3, 2, 0);
-        cardsGrid.add(card4, 0, 1);
-        cardsGrid.add(card5, 1, 1);
+        healthCard.getChildren().addAll(healthTitle, healthText, healthTip);
 
-        // Make all columns equal width
-        for (int i = 0; i < 3; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / 3);
-            colConst.setHgrow(Priority.ALWAYS);
-            cardsGrid.getColumnConstraints().add(colConst);
-        }
+        // Fitness Goal Card
+        VBox goalCard = new VBox(20);
+        goalCard.getStyleClass().add("card");
+        goalCard.setPadding(new Insets(30));
+        goalCard.setPrefWidth(550);
 
-        // Make rows equal height
-        for (int i = 0; i < 2; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(50);
-            rowConst.setVgrow(Priority.ALWAYS);
-            cardsGrid.getRowConstraints().add(rowConst);
-        }
+        Text goalTitle = new Text("Fitness Goal");
+        goalTitle.setFont(Font.font(26));
+        goalTitle.setFill(Color.WHITE);
 
-        contentArea.getChildren().add(cardsGrid);
+        Text goalText = new Text(userProfiles.getFitnessGoal().toString().replace("_", " "));
+        goalText.setFont(Font.font(22));
+        goalText.setFill(Color.LIGHTCORAL);
+
+        Text goalTip = new Text(getFitnessGoalTip(userProfiles.getFitnessGoal()));
+        goalTip.setFont(Font.font(16));
+        goalTip.setFill(Color.LIGHTGRAY);
+        goalTip.setWrappingWidth(500);
+
+        goalCard.getChildren().addAll(goalTitle, goalText, goalTip);
+
+        infoRow.getChildren().addAll(healthCard, goalCard);
+        HBox.setHgrow(healthCard, Priority.ALWAYS);
+        HBox.setHgrow(goalCard, Priority.ALWAYS);
+
+        contentArea.getChildren().addAll(statsRow, infoRow);
         mainContent.getChildren().addAll(topBar, contentArea);
         root.getChildren().addAll(sidebar, mainContent);
 
@@ -422,9 +402,112 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
         if (cssUrl != null) scene.getStylesheets().add(cssUrl.toExternalForm());
 
         stage.setScene(scene);
-        stage.setTitle("Fitelligence - Health Advice");
+        stage.setTitle("Fitelligence - Progress");
         stage.setResizable(false);
         stage.show();
+    }
+
+    // Helper method to create BIG stat cards
+    private VBox createBigStatCard(String title, String value, String description, Color color, String emoji) {
+        VBox card = new VBox(15);
+        card.getStyleClass().add("card");
+        card.setPadding(new Insets(25));
+        card.setAlignment(Pos.CENTER);
+        card.setPrefSize(250, 200);
+
+        HBox titleBox = new HBox(15);
+        titleBox.setAlignment(Pos.CENTER);
+
+        Text emojiText = new Text(emoji);
+        emojiText.setFont(Font.font(30));
+
+        Text titleText = new Text(title);
+        titleText.setFont(Font.font(18));
+        titleText.setFill(Color.LIGHTGRAY);
+
+        titleBox.getChildren().addAll(emojiText, titleText);
+
+        Text valueText = new Text(value);
+        valueText.setFont(Font.font(32));
+        valueText.setFill(color);
+
+        Text descText = new Text(description);
+        descText.setFont(Font.font(14));
+        descText.setFill(Color.LIGHTGRAY);
+        descText.setWrappingWidth(200);
+
+        card.getChildren().addAll(titleBox, valueText, descText);
+        return card;
+    }
+
+    private Color getBMIColor(double bmi) {
+        if (bmi < 18.5) return Color.LIGHTBLUE;    // Underweight
+        else if (bmi < 25) return Color.LIGHTGREEN; // Normal
+        else if (bmi < 30) return Color.ORANGE;     // Overweight
+        else return Color.RED;                      // Obese
+    }
+
+    private String getBMIDescription(double bmi) {
+        if (bmi < 18.5) return "Underweight - Eat more! 🍽️";
+        else if (bmi < 25) return "Normal - Perfect! ✅";
+        else if (bmi < 30) return "Overweight - Time to move! 🏃";
+        else return "Obese - Let's work on it! 💪";
+    }
+
+    private Color getCalorieColor(int eaten, int goal) {
+        double percentage = (double) eaten / goal;
+        if (percentage < 0.7) return Color.LIGHTGREEN;  // Good
+        else if (percentage < 0.9) return Color.YELLOW; // Moderate
+        else if (percentage <= 1.0) return Color.ORANGE; // Near limit
+        else return Color.RED;                          // Over limit
+    }
+
+    private Color getStepsColor(int steps) {
+        if (steps >= 10000) return Color.LIGHTGREEN;  // Excellent
+        else if (steps >= 5000) return Color.YELLOW;  // Good
+        else return Color.LIGHTBLUE;                  // Could improve
+    }
+
+    private String getStepsMessage(int steps) {
+        if (steps >= 10000) return "Awesome! Keep it up! 🏆";
+        else if (steps >= 5000) return "Good job! Almost there! 👍";
+        else return "Let's move more today! 🚶";
+    }
+
+    private String getFormattedHealthCondition(ConditionHealth health) {
+        if (health == ConditionHealth.NONE) {
+            return "No health conditions";
+        } else {
+            String name = health.toString();
+            if (name.contains("_")) {
+                String[] parts = name.split("_");
+                return parts[0] + " " + parts[1].toLowerCase();
+            } else {
+                return name.substring(0, 1) + name.substring(1).toLowerCase();
+            }
+        }
+    }
+
+    private String getHealthConditionTip(ConditionHealth health) {
+        switch (health) {
+            case NONE: return "No restrictions - enjoy a balanced diet! 🍎";
+            case DIABETES: return "Monitor sugar, eat whole grains, avoid sweets. 🚫🍭";
+            case Heart_Disease: return "Low sodium, healthy fats, lots of veggies. ❤️🥦";
+            case Kidney_Disease: return "Limit protein, watch potassium, stay hydrated. 💧";
+            case ConditionGlutenTolerance: return "Avoid wheat, barley, rye. Go gluten-free! 🌾";
+            case ConditionColon: return "High fiber, lots of water, avoid processed foods. 💦";
+            case ConditionLactoseTolerance: return "Avoid dairy, try almond/soy alternatives. 🥛";
+            default: return "Follow your doctor's advice! 👨‍⚕️";
+        }
+    }
+
+    private String getFitnessGoalTip(FitnessGoal goal) {
+        switch (goal) {
+            case WEIGHT_LOSS: return "Calorie deficit + cardio. Focus on protein! 🥗🏃";
+            case MUSCLE_GAIN: return "Protein surplus + strength training. Lift heavy! 💪🏋️";
+            case MAINTAIN_WEIGHT: return "Balance calories, mix cardio & strength. ⚖️";
+            default: return "Stay active every day! 🏋️‍♂️";
+        }
     }
 
     private UserProfiles findProfileByEmail(String email) {
@@ -434,48 +517,5 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
             }
         }
         return null;
-    }
-
-    private VBox createProgressCard(String title, String content) {
-        VBox card = new VBox(10);
-        card.setPadding(new Insets(20));
-        card.setAlignment(Pos.TOP_LEFT);
-        card.getStyleClass().add("card");
-
-        // Allow card to expand
-        card.setMaxWidth(Double.MAX_VALUE);
-        card.setMaxHeight(Double.MAX_VALUE);
-        VBox.setVgrow(card, Priority.ALWAYS);
-        HBox.setHgrow(card, Priority.ALWAYS);
-
-        Text titleLabel = new Text(title);
-        titleLabel.setFont(Font.font(22));
-        titleLabel.setFill(Color.WHITE);
-        titleLabel.getStyleClass().add("card-title");
-        titleLabel.wrappingWidthProperty().bind(card.widthProperty().subtract(40));
-
-        Text contentText = new Text(content);
-        contentText.setFill(Color.LIGHTGRAY);
-        contentText.setFont(Font.font(14));
-        contentText.wrappingWidthProperty().bind(card.widthProperty().subtract(40));
-
-        // Allow content text to expand
-        VBox.setVgrow(contentText, Priority.ALWAYS);
-
-        card.getChildren().addAll(titleLabel, contentText);
-
-        return card;
-    }
-
-    private String formatAsBulletList(String[] items) {
-        if (items == null || items.length == 0) {
-            return "• No specific recommendations";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (String item : items) {
-            sb.append("• ").append(item.trim()).append("\n");
-        }
-        return sb.toString().trim();
     }
 }

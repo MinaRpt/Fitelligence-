@@ -15,6 +15,8 @@ public class UserProfiles  implements Serializable {
     private int dailyCalories; // e.g., calories eaten today
     private int exerciseCalories; // calories burned today
     private int totalSteps;
+    private int totalUpdate;
+
 
     public UserProfiles(String email, String name, int age, Gender gender, double height, double weight, ConditionHealth hc ,FitnessGoal fg) {
         this.email = email;
@@ -30,6 +32,14 @@ public class UserProfiles  implements Serializable {
         this.dailyCalories = 0;
         this.exerciseCalories = 0;
         this.totalSteps = 0;
+    }
+
+    public int getTotalUpdate() {
+        return totalUpdate;
+    }
+
+    public void setTotalUpdate(int totalUpdate) {
+        this.totalUpdate = totalUpdate;
     }
 
     public ConditionHealth getConditionHealth() {
@@ -48,7 +58,7 @@ public class UserProfiles  implements Serializable {
         this.totalSteps = totalSteps;
     }
 
-    public int getExerciseCalories() {
+    public int getExercisexCalories() {
         return exerciseCalories;
     }
 
@@ -72,10 +82,10 @@ public class UserProfiles  implements Serializable {
     }
 
 
-    public double calculateBMI(double weightKg, double heightMeters) {
-        return weightKg / (heightMeters * heightMeters);
+    public double calculateBMI(double weight, double height) {
+        double heightInMeters = height / 100.0;
+        return weight / (heightInMeters * heightInMeters);
     }
-
     public String getEmail() {
         return email;
     }
