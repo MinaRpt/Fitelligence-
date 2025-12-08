@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.animation.PauseTransition;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
@@ -148,34 +149,61 @@ public class Main extends Application {  // extends application gives us the fun
         SubmitButton.setTranslateY(100);
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+
+            /* Name hehight weight things to not break the application validations >:c */
             public void handle(ActionEvent actionEvent) {
+                if (!nameField.getText().matches("[A-Za-z]+") || nameField.getText().length() > 7 ||
+                        !age.getText().matches("\\d+") ||
+                        !weightField.getText().matches("\\d+(\\.\\d+)?") ||
+                        !heightField.getText().matches("\\d+(\\.\\d+)?")) {
+
+                    showError("Invalid input. Please check:\n" +
+                            "- Name: letters only, max 7 chars\n" +
+                            "- Age: numbers only\n" +
+                            "- Weight: numbers only\n" +
+                            "- Height: numbers only");
+                    return;
+                }
 
                 String name = nameField.getText();
+
+                
                 int userAge = Integer.parseInt(age.getText());
+
                 double weight = Double.parseDouble(weightField.getText());
 
                 double height = Double.parseDouble(heightField.getText());
 
-                Gender selected = Gender.valueOf(genderBox.getValue().toString());
-                ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
-                FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
-                currentUser.setName(name);
-                currentUser.setAge(userAge);
-                currentUser.setWeight(weight);
-                currentUser.setHeight(height);
-                currentUser.setGender(selected);
-                currentUser.setHealthCondition(conditionHealthSelected);
-                currentUser.setEmail(email);
-                currentUser.setFoodTracker(foodTracker);
-                currentUser.setExerciseTracker(exerciseTracker);
-                currentUser.setFitnessGoal(ChosenGoal);
+                if (userAge < 1 || userAge > 100 ||
+                        height < 50 || height > 250 ||
+                        weight < 10 || weight > 400) {
 
-                profileList.add(currentUser);
-                fileHandler.saveProfiles(profileList);
+                    showError("Please enter realistic values:\n\nAge: 1–100\nHeight: 50–250 cm\nWeight: 10–400 kg" );
+                    return;
+                }
+                else {
+                    Gender selected = Gender.valueOf(genderBox.getValue().toString());
+                    ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
+                    FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
-                // Open the main app scene after signup
-                PageHOME home = new PageHOME(currentUser, stage);
+                    currentUser.setName(name);
+                    currentUser.setAge(userAge);
+                    currentUser.setWeight(weight);
+                    currentUser.setHeight(height);
+                    currentUser.setGender(selected);
+                    currentUser.setHealthCondition(conditionHealthSelected);
+                    currentUser.setEmail(email);
+                    currentUser.setFoodTracker(foodTracker);
+                    currentUser.setExerciseTracker(exerciseTracker);
+                    currentUser.setFitnessGoal(ChosenGoal);
+
+                    profileList.add(currentUser);
+                    fileHandler.saveProfiles(profileList);
+
+                    // Open the main app scene after signup
+                    PageHOME home = new PageHOME(currentUser, stage);
+                }
             }
         });
 
@@ -287,20 +315,14 @@ public class Main extends Application {  // extends application gives us the fun
                 "\nTotal Duration (minutes): " + tracker.getTotalDurationMinutes();
     }
 
-    private void showError(String message, StackPane root) {
-        Text errorText = new Text(message);
-        errorText.setFont(Font.font("Verdana", 15));
-        errorText.setFill(javafx.scene.paint.Color.RED);
-        errorText.setTranslateY(400);
-
-        if (!root.getChildren().contains(errorText)) {
-            root.getChildren().add(errorText);
-
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> root.getChildren().remove(errorText));
-            pause.play();
-        }
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Input Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+
 
     private void showSuccess(String message, StackPane root) {
         Text successText = new Text(message);
