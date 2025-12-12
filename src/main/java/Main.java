@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.animation.PauseTransition;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.ArrayList;
 
@@ -46,6 +48,10 @@ public class Main extends Application {  // extends application gives us the fun
         if (loadedAccounts == null) loadedAccounts = new ArrayList<>();
         accountService = new AccountService(loadedAccounts);
 
+
+        Image icon = new Image(getClass().getResourceAsStream("/logo.jpeg"));
+        stage.getIcons().add(icon);
+
         ArrayList<UserProfiles> loadedProfiles = fileHandler.loadProfiles();
         if (loadedProfiles == null) loadedProfiles = new ArrayList<>();
         profileList = loadedProfiles;
@@ -75,6 +81,11 @@ public class Main extends Application {  // extends application gives us the fun
         nameField.setMaxHeight(40);
         nameField.setTranslateY(-250);
 
+        Text namePlace = new Text();
+        namePlace.setText("Name");
+        namePlace.setFont(Font.font("Verdana", 20));
+        namePlace.setTranslateX(-250);
+        namePlace.setTranslateY(-250);
 
         TextField age = new TextField();
         age.setPromptText("Enter your Age ex. 20");
@@ -82,11 +93,24 @@ public class Main extends Application {  // extends application gives us the fun
         age.setMaxHeight(40);
         age.setTranslateY(-200);
 
+        Text agePlace = new Text();
+        agePlace.setText("age");
+        agePlace.setFont(Font.font("Verdana", 20));
+        agePlace.setTranslateX(-250);
+        agePlace.setTranslateY(-200);
+
         TextField heightField = new TextField();
         heightField.setPromptText("Enter your Height ex. 170cm");
         heightField.setMaxWidth(400);
         heightField.setMaxHeight(40);
         heightField.setTranslateY(-150);
+
+        Text heightPlace = new Text();
+        heightPlace.setText("Height");
+        heightPlace.setFont(Font.font("Verdana", 20));
+        heightPlace.setTranslateX(-250);
+        heightPlace.setTranslateY(-150);
+
 
         TextField weightField = new TextField();
         weightField.setPromptText("Enter your Weight ex. 99kg");
@@ -94,10 +118,21 @@ public class Main extends Application {  // extends application gives us the fun
         weightField.setMaxHeight(40);
         weightField.setTranslateY(-100);
 
+        Text weightPlace = new Text();
+        weightPlace.setText("Weight");
+        weightPlace.setFont(Font.font("Verdana", 20));
+        weightPlace.setTranslateX(-250);
+        weightPlace.setTranslateY(-100);
+
         ComboBox<String> genderBox = new ComboBox<>();
         genderBox.setPromptText("Choose Gender");
         genderBox.getItems().addAll("MALE", "FEMALE");
         genderBox.setTranslateY(-50);
+
+        Text genderText = new Text();
+        genderText.setText("Gender");
+        genderText.setFont(Font.font("Verdana", 20));
+        genderText.setTranslateX(-250);
 
         ComboBox<String> Healthconditionbox = new ComboBox<>();
         Healthconditionbox.setPromptText("Choose Health Condition");
@@ -114,55 +149,65 @@ public class Main extends Application {  // extends application gives us the fun
         SubmitButton.setTranslateY(100);
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
+
+            /* Name hehight weight things to not break the application validations >:c */
             public void handle(ActionEvent actionEvent) {
-                if (nameField.getText().isEmpty()) {
-                    showError ("Please Enter Your Name");
+                if (!nameField.getText().matches("[A-Za-z]+") || nameField.getText().length() > 7 ||
+                        !age.getText().matches("\\d+") ||
+                        !weightField.getText().matches("\\d+(\\.\\d+)?") ||
+                        !heightField.getText().matches("\\d+(\\.\\d+)?")) {
+
+                    showError("Invalid input. Please check:\n" +
+                            "- Name: letters only, max 7 chars\n" +
+                            "- Age: numbers only\n" +
+                            "- Weight: numbers only\n" +
+                            "- Height: numbers only");
                     return;
                 }
-                if (!age.getText().matches("[0-9]+")) {
-                    showError ("Age Must Be A Number");
-                    return;
-                    }
-                if (!weightField.getText().matches("\\d+(\\.\\d+)?")) {
-                    showError ("Weight Must Be In Number");
-                    return;
-                    }
-                if (!heightField.getText().matches("\\d+(\\.\\d+)?")) {
-                    showError ("height Must Be In Number");
-                    return;
-                    }
-
 
                 String name = nameField.getText();
+
+                
                 int userAge = Integer.parseInt(age.getText());
+
                 double weight = Double.parseDouble(weightField.getText());
 
                 double height = Double.parseDouble(heightField.getText());
 
-                Gender selected = Gender.valueOf(genderBox.getValue().toString());
-                ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
-                FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
-                currentUser.setName(name);
-                currentUser.setAge(userAge);
-                currentUser.setWeight(weight);
-                currentUser.setHeight(height);
-                currentUser.setGender(selected);
-                currentUser.setHealthCondition(conditionHealthSelected);
-                currentUser.setEmail(email);
-                currentUser.setFoodTracker(foodTracker);
-                currentUser.setExerciseTracker(exerciseTracker);
-                currentUser.setFitnessGoal(ChosenGoal);
+                if (userAge < 1 || userAge > 100 ||
+                        height < 50 || height > 250 ||
+                        weight < 10 || weight > 400) {
 
-                profileList.add(currentUser);
-                fileHandler.saveProfiles(profileList);
+                    showError("Please enter realistic values:\n\nAge: 1–100\nHeight: 50–250 cm\nWeight: 10–400 kg" );
+                    return;
+                }
+                else {
+                    Gender selected = Gender.valueOf(genderBox.getValue().toString());
+                    ConditionHealth conditionHealthSelected = ConditionHealth.valueOf(Healthconditionbox.getValue().toString());
+                    FitnessGoal ChosenGoal = FitnessGoal.valueOf(goalBox.getValue().toString());
 
-                // Open the main app scene after signup
-                PageHOME home = new PageHOME(currentUser, stage);
+                    currentUser.setName(name);
+                    currentUser.setAge(userAge);
+                    currentUser.setWeight(weight);
+                    currentUser.setHeight(height);
+                    currentUser.setGender(selected);
+                    currentUser.setHealthCondition(conditionHealthSelected);
+                    currentUser.setEmail(email);
+                    currentUser.setFoodTracker(foodTracker);
+                    currentUser.setExerciseTracker(exerciseTracker);
+                    currentUser.setFitnessGoal(ChosenGoal);
+
+                    profileList.add(currentUser);
+                    fileHandler.saveProfiles(profileList);
+
+                    // Open the main app scene after signup
+                    PageHOME home = new PageHOME(currentUser, stage);
+                }
             }
         });
 
-        root1.getChildren().addAll(nameField, age, WelcomingText, heightField, weightField, SubmitButton, genderBox, goalBox, Healthconditionbox);
+        root1.getChildren().addAll(namePlace , weightPlace , heightPlace ,   agePlace , nameField, age, WelcomingText, heightField, weightField, SubmitButton, genderBox, goalBox, Healthconditionbox);
 
         // --- LOGIN SCENE ---
         Text text = new Text();
@@ -190,6 +235,8 @@ public class Main extends Application {  // extends application gives us the fun
             @Override
             public void handle(ActionEvent actionEvent) {
                 email = emailField.getText();
+                EmailValidator validator = EmailValidator.getInstance();
+//                if (!validator.isValid(email)) {}     This also can be used but I prefer the one that you did
                 if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
                     Text Error = new Text("Invalid Email Address!");
                     Error.setFont(Font.font("Verdana", 20));
@@ -268,20 +315,14 @@ public class Main extends Application {  // extends application gives us the fun
                 "\nTotal Duration (minutes): " + tracker.getTotalDurationMinutes();
     }
 
-    private void showError(String message, StackPane root) {
-        Text errorText = new Text(message);
-        errorText.setFont(Font.font("Verdana", 15));
-        errorText.setFill(javafx.scene.paint.Color.RED);
-        errorText.setTranslateY(400);
-
-        if (!root.getChildren().contains(errorText)) {
-            root.getChildren().add(errorText);
-
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event -> root.getChildren().remove(errorText));
-            pause.play();
-        }
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Input Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
+
 
     private void showSuccess(String message, StackPane root) {
         Text successText = new Text(message);
@@ -297,14 +338,6 @@ public class Main extends Application {  // extends application gives us the fun
             pause.play();
         }
 
-
-    }
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
 }

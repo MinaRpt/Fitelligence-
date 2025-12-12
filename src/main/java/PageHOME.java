@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -481,13 +482,29 @@ public class PageHOME {
                     if (title.equals("Exercise")) {
                         userProfiles.setTotalSteps(total.get());
                         double caloriesBurned = value * 0.04 * userProfiles.getWeight();
+
                         if (userProfiles.getExerciseTracker() == null) userProfiles.setExerciseTracker(new ExerciseTracker());
                         userProfiles.getExerciseTracker().addExercise("Steps", (int)value, caloriesBurned);
 
 
 
                     } else {
-                        userProfiles.setDailyCalories(total.get());
+                        userProfiles.setDailyCalories(userProfiles.getDailyCalories() + (int)value);
+                        if (userProfiles.getFoodTracker() == null) {
+                            userProfiles.setFoodTracker(new FoodTracker());
+                        }
+
+                        Food newFood = new Food(
+                                value, // calories
+                                0,     // fat (default 0 since not entered)
+                                name.trim(),
+                                0,     // protein (default 0)
+                                LocalDateTime.now(),
+                                0      // carbs (default 0)
+                        );
+                        userProfiles.getFoodTracker().addFood(newFood);
+                        total.set(userProfiles.getDailyCalories());
+
                     }
                     fileHandler.saveProfiles(profileList);
 
