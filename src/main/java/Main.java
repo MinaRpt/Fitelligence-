@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static javafx.geometry.Pos.BOTTOM_CENTER;
@@ -338,6 +339,14 @@ public class Main extends Application {  // extends application gives us the fun
             pause.play();
         }
 
+    }
+    public void checkAutoReset(UserProfiles user){
+
+
+
+        if(user!=null){
+           user.autoResetAt3AM() ;
+        }
     }
 
 }

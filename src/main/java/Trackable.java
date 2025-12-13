@@ -13,4 +13,4 @@ public abstract class Trackable  implements Serializable {
     }
 
     public abstract double getCalories();
-}
+} // could you close intellij and open it again

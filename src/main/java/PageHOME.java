@@ -1,3 +1,5 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -316,6 +318,17 @@ public class PageHOME {
 
         // Top Bar
         HBox topBar = new HBox();
+        CheckBox autoResetToggle = new CheckBox("Auto reset at 3 AM");
+        autoResetToggle.setTextFill(Color.WHITE);
+        autoResetToggle.setSelected(userProfiles.getAutoResetEnabled());
+
+        autoResetToggle.setOnAction(e -> {
+            userProfiles.setAutoResetEnabled(autoResetToggle.isSelected());
+            fileHandler.saveProfiles(profileList);
+        });
+
+        HBox.setMargin(autoResetToggle, new Insets(0, 0, 0, 40));
+        topBar.getChildren().add(autoResetToggle);
         topBar.setPrefHeight(60);
         topBar.setPadding(new Insets(10));
         topBar.getStyleClass().add("top-bar");
@@ -382,6 +395,17 @@ public class PageHOME {
         stage.setTitle("Fitelligence");
         stage.centerOnScreen();
         stage.setResizable(false);
+        Timeline autoResetTimeline = new Timeline(
+                new KeyFrame(javafx.util.Duration.minutes(1), e -> {
+                    if (userProfiles != null) {
+                        userProfiles.autoResetAt3AM();
+                        fileHandler.saveProfiles(profileList);
+                    }
+                })
+        );
+        autoResetTimeline.setCycleCount(Timeline.INDEFINITE);
+        autoResetTimeline.play();
+
         stage.show();
         stage.centerOnScreen();
     }
@@ -447,6 +471,23 @@ public class PageHOME {
         Button button = new Button(buttonText);
         button.getStyleClass().add("buttonedit");
         button.setPrefWidth(120);
+        Button resetBtn = new Button("Reset Today");
+        resetBtn.getStyleClass().add("buttonedit");
+
+        resetBtn.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Reset Confirmation");
+            confirm.setHeaderText("Reset today’s data?");
+            confirm.setContentText("Calories and exercises will be saved to history.");
+
+            Optional<ButtonType> result = confirm.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                userProfiles.manualReset();
+                fileHandler.saveProfiles(profileList);
+                total.set(0);
+            }
+        });
+
 
         button.setOnAction(actionEvent -> {
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -524,7 +565,7 @@ public class PageHOME {
         VBox.setMargin(bar, new Insets(6, 0, 6, 0));
         VBox.setMargin(button, new Insets(8, 0, 0, 0));
 
-        card.getChildren().addAll(titleLabel, bar, progText, button);
+        card.getChildren().addAll(titleLabel, bar, progText, button,resetBtn);
         return card;
     }
 

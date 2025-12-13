@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class UserProfiles  implements Serializable {
     private int age;
@@ -16,6 +19,8 @@ public class UserProfiles  implements Serializable {
     private int exerciseCalories; // calories burned today
     private int totalSteps;
     private int totalUpdate;
+    private ActivityLevel activityLevel;
+
 
 
     public UserProfiles(String email, String name, int age, Gender gender, double height, double weight, ConditionHealth hc ,FitnessGoal fg) {
@@ -32,6 +37,9 @@ public class UserProfiles  implements Serializable {
         this.dailyCalories = 0;
         this.exerciseCalories = 0;
         this.totalSteps = 0;
+        this.autoResetEnabled= false;
+        this.lastResetDateTime=LocalDateTime.now();
+        this.activityLevel = ActivityLevel.SEDENTARY;
     }
 
     public int getTotalUpdate() {
@@ -76,7 +84,7 @@ public class UserProfiles  implements Serializable {
 
     public int getMacroCalorieGoal(UserProfiles user) {
          this.MacroCalorieGoal = MacroCalculator.calculateCalorieGoal(user);
-        ;
+
         System.out.println(MacroCalculator.calculateCalorieGoal(user));
         return MacroCalorieGoal;
     }
@@ -165,6 +173,12 @@ public class UserProfiles  implements Serializable {
     public void setWeight(double weight) {
         this.weight = weight;
     }
+    public void setActivityLevel(ActivityLevel activityLevel) {
+        this.activityLevel = activityLevel;
+    }
+    public ActivityLevel getActivityLevel() {
+        return activityLevel;
+    }
 
 
     @Override
@@ -172,6 +186,54 @@ public class UserProfiles  implements Serializable {
         return email + " , " + name + "," + age + "," + weight + "," + height + "," +
                 gender + "," + conditionHealth + "," + foodTracker + "," + exerciseTracker + "," + fitnessGoal;
     }
+    private ArrayList<DailyHistory> history= new ArrayList<>();
+
+    public ArrayList<DailyHistory> getHistory() {
+        return history;
+    }
+    public void saveDayToHistory() {
+        DailyHistory record=new DailyHistory(
+                LocalDateTime.now(),
+                LocalTime.now(),
+                this.exerciseCalories,
+                this.dailyCalories,
+                new ArrayList<>(this.exerciseTracker.getExerciseEntries() )
+        );
+                history.add(record);
+
+                this.dailyCalories=0;
+                this.exerciseCalories=0;
+                this.exerciseTracker.clearExercises();
+    }
+    private boolean autoResetEnabled;
+    public boolean getAutoResetEnabled() {
+        return autoResetEnabled;
+    }
+    public void setAutoResetEnabled(boolean autoResetEnabled) {
+        this.autoResetEnabled = autoResetEnabled;
+    }
+    private LocalDateTime lastResetDateTime;
+    public void autoResetAt3AM(){
+        if (!autoResetEnabled) {
+            return;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        if (lastResetDateTime == null) {
+            lastResetDateTime=now;
+            return;
+        }
+        boolean passed3AM=now.getHour()>=3&&now.toLocalDate().isAfter(lastResetDateTime.toLocalDate());
+        if (passed3AM) {
+            saveDayToHistory();
+            lastResetDateTime=now;
+        }
+    }
+    public void manualReset() {
+        saveDayToHistory();
+    }
+
+
+
     }
 
 

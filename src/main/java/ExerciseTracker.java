@@ -41,4 +41,8 @@ public class ExerciseTracker implements Serializable {
     public String toString() {
         return "ExerciseName = " + exerciseEntries + ", TotalCaloriesBurned = " + totalCaloriesBurned;
     }
+    public void clearExercises() {
+        exerciseEntries.clear();
+        totalCaloriesBurned = 0;
+    }
 }
