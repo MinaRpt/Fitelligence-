@@ -10,7 +10,7 @@ public class DailyHistory implements Serializable {
     private int totalcaloriesburnt;
     private int calories;
     private ArrayList<Exercise> exercises;
-
+//test
     public DailyHistory(LocalDateTime date, LocalTime time, int totalcaloriesburnt, int calories, ArrayList<Exercise> exercises) {
         this.date = date;
         this.time = time;
