@@ -389,10 +389,16 @@ public class PageTracking {
 
         VBox totals = new VBox(10);
 
+        if(userProfiles.getDailyCalories() == 0 ){
+            tracker.clearAllFoods();
+        }
+
         Text caloriesTotal = new Text("Calories: " + tracker.CalculateTotalCalories() + " kcal");
         caloriesTotal.setFill(Color.CYAN);
         caloriesTotal.setFont(Font.font(18));
+        if (userProfiles.getDailyCalories() == 0) {
 
+        }
         Text proteinTotal = new Text("Protein: " + tracker.calculatTotalprotein() + " g");
         proteinTotal.setFill(Color.LIGHTGREEN);
 

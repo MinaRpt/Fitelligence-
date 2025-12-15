@@ -44,16 +44,16 @@ public class Account implements Serializable {
 
     }
 
-    public void removeProfile(UserProfiles profile) {
-                profiles.remove(profile);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return Objects.equals(email, account.email);
-    }
+//    public void removeProfile(UserProfiles profile) {
+//                profiles.remove(profile);
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Account account = (Account) o;
+//        return Objects.equals(email, account.email);
+//    }
 
 
     @Override

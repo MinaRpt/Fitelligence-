@@ -365,13 +365,16 @@ public class PageHOME {
         Greetings.getStyleClass().add("top-title");
         VBox.setMargin(Greetings, new Insets(10, 0, 0, 20));
 
-        VBox breakfast = createMealCard("🍳 Breakfast", "80g oatmeal + 150g Greek yogurt + 100g berries");
+
+        String  currentUser = "age : " + userProfiles.getAge() + "  weight : " +  userProfiles.getWeight() + " height : " + userProfiles.getHeight() + " health condition :  " + userProfiles.getHealthCondition() + "fitness goal : " +  userProfiles.getFitnessGoal() + "";
+        VBox breakfast = createMealCard("🍳 Breakfast", AIChatBot.suggestBreakfast(currentUser));
+        System.out.println(AIChatBot.suggestBreakfast(currentUser));
         breakfast.getStyleClass().add("Foodtitles");
-        VBox lunch = createMealCard("🥗 Lunch", "Grilled chicken breast + quinoa + mixed greens");
+        VBox lunch = createMealCard("🥗 Lunch", AIChatBot.suggestLunch(currentUser));
         lunch.getStyleClass().add("Foodtitles");
-        VBox dinner = createMealCard("🍛 Dinner", "Grilled salmon + steamed broccoli + brown rice");
+        VBox dinner = createMealCard("🍛 Dinner", AIChatBot.suggestDinner(currentUser));
         dinner.getStyleClass().add("Foodtitles");
-        VBox snacks = createMealCard("🥜 Snacks", "Protein shake + 20g almonds or rice cakes");
+        VBox snacks = createMealCard("🥜 Snacks", AIChatBot.suggestSnacks(currentUser));
         snacks.getStyleClass().add("Foodtitles");
 
         mealsContainer.getChildren().addAll(breakfast, lunch, dinner, snacks);

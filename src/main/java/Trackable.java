@@ -1,6 +1,8 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 // This abstract class represents a trackable item with a timestamp and a method to get calories for an exercise or a food item.
+
+// ignore this class it was just for testing but it is implemented in the project
 public abstract class Trackable  implements Serializable {
     private LocalDateTime timestamp;
 

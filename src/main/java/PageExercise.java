@@ -534,7 +534,7 @@ public class PageExercise {
                 Optional<ButtonType> result = confirm.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     // Remove exercise
-                    // Note: ExerciseTracker doesn't have remove method, so we'll recreate the tracker
+                    // Note: ExerciseTracker doesn't have remove metho
                     recreateTrackerWithoutExercise(exercise);
                     fileHandler.saveProfiles(profileList);
 

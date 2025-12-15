@@ -52,6 +52,9 @@ public class FoodTracker implements Serializable {
         }
         return totalCarb;
      }
+    public void clearAllFoods() {
+        foodList.clear();
+    }
 
     @Override
     public String toString() {
