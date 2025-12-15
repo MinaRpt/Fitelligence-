@@ -207,7 +207,7 @@ public class UserProfiles  implements Serializable {
                 this.exerciseTracker.clearExercises();
     }
     private boolean autoResetEnabled;
-
+//.
     public boolean getAutoResetEnabled() {
         return autoResetEnabled;
     }
