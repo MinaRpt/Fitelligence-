@@ -12,7 +12,7 @@ public class UserProfiles  implements Serializable {
     private ConditionHealth conditionHealth;
     private FitnessGoal fitnessGoal;
     private FoodTracker foodTracker;
-    private ExerciseTracker exerciseTracker;
+    private ExerciseTracker exerciseTracker;              // dh 	Encapsulation
     private String email;
     private int MacroCalorieGoal;
     private int dailyCalories; // e.g., calories eaten today

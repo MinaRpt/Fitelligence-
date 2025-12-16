@@ -49,7 +49,6 @@ public class Main extends Application {  // extends application gives us the fun
         if (loadedAccounts == null) loadedAccounts = new ArrayList<>();
         accountService = new AccountService(loadedAccounts);
 
-
         Image icon = new Image(getClass().getResourceAsStream("/logo.jpeg"));
         stage.getIcons().add(icon);
 
@@ -59,21 +58,27 @@ public class Main extends Application {  // extends application gives us the fun
 
         // --- PRIMARY SCENES ---
         StackPane root = new StackPane(); // That thing helps us to center stuff in the window :D
+        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #0a0a1a, #1b1b2f);");
+
         Scene scene = new Scene(root, 835, 400); // create a scene object // width and height of the window
 
         StackPane root1 = new StackPane(); // Scene for new user signup / creating profile
+        root1.setStyle("-fx-background-color: linear-gradient(to bottom right, #0a0a1a, #1b1b2f);");
         Scene scene1 = new Scene(root1, 1000, 700);
 
         StackPane root2 = new StackPane(); // Scene for new user signed in MAIN APP!!
+        root2.setStyle("-fx-background-color: linear-gradient(to bottom right, #0a0a1a, #1b1b2f);");
         Scene scene2 = new Scene(root2, 1400, 700);
 
         StackPane root3 = new StackPane(); // Another main app scene
+        root3.setStyle("-fx-background-color: linear-gradient(to bottom right, #0a0a1a, #1b1b2f);");
         Scene scene3 = new Scene(root3, 1400, 700);
 
         //* Scene for new user who signed up using root1 *//
         Text WelcomingText = new Text();
         WelcomingText.setText("Welcome to Fitelligence! Please enter your details below:");
         WelcomingText.setFont(Font.font("Verdana", 30));
+        WelcomingText.setStyle("-fx-fill: linear-gradient(to right, #00fff7, #9b59ff); -fx-font-weight: bold;");
         StackPane.setAlignment(WelcomingText, TOP_CENTER);
 
         TextField nameField = new TextField();
@@ -81,73 +86,87 @@ public class Main extends Application {  // extends application gives us the fun
         nameField.setMaxWidth(400);
         nameField.setMaxHeight(40);
         nameField.setTranslateY(-250);
+        nameField.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         Text namePlace = new Text();
         namePlace.setText("Name");
         namePlace.setFont(Font.font("Verdana", 20));
         namePlace.setTranslateX(-250);
         namePlace.setTranslateY(-250);
+        namePlace.setStyle("-fx-fill: #00fff7;");
 
         TextField age = new TextField();
         age.setPromptText("Enter your Age ex. 20");
         age.setMaxWidth(400);
         age.setMaxHeight(40);
         age.setTranslateY(-200);
+        age.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         Text agePlace = new Text();
         agePlace.setText("age");
         agePlace.setFont(Font.font("Verdana", 20));
         agePlace.setTranslateX(-250);
         agePlace.setTranslateY(-200);
+        agePlace.setStyle("-fx-fill: #00fff7;");
 
         TextField heightField = new TextField();
         heightField.setPromptText("Enter your Height ex. 170cm");
         heightField.setMaxWidth(400);
         heightField.setMaxHeight(40);
         heightField.setTranslateY(-150);
+        heightField.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         Text heightPlace = new Text();
         heightPlace.setText("Height");
         heightPlace.setFont(Font.font("Verdana", 20));
         heightPlace.setTranslateX(-250);
         heightPlace.setTranslateY(-150);
-
+        heightPlace.setStyle("-fx-fill: #00fff7;");
 
         TextField weightField = new TextField();
         weightField.setPromptText("Enter your Weight ex. 99kg");
         weightField.setMaxWidth(400);
         weightField.setMaxHeight(40);
         weightField.setTranslateY(-100);
+        weightField.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         Text weightPlace = new Text();
         weightPlace.setText("Weight");
         weightPlace.setFont(Font.font("Verdana", 20));
         weightPlace.setTranslateX(-250);
         weightPlace.setTranslateY(-100);
+        weightPlace.setStyle("-fx-fill: #00fff7;");
 
         ComboBox<String> genderBox = new ComboBox<>();
         genderBox.setPromptText("Choose Gender");
         genderBox.getItems().addAll("MALE", "FEMALE");
         genderBox.setTranslateY(-50);
-
-        Text genderText = new Text();
-        genderText.setText("Gender");
-        genderText.setFont(Font.font("Verdana", 20));
-        genderText.setTranslateX(-250);
+        genderBox.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-border-color: rgba(0,255,255,0.3);");
 
         ComboBox<String> Healthconditionbox = new ComboBox<>();
         Healthconditionbox.setPromptText("Choose Health Condition");
         Healthconditionbox.getItems().addAll("NONE" , "DIABETES" , "ConditionLactoseTolerance" , "ConditionColon" , "ConditionGlutenTolerance");
         Healthconditionbox.setTranslateY(0);
+        Healthconditionbox.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-border-color: rgba(0,255,255,0.3);");
 
         ComboBox<String> goalBox = new ComboBox<>();
         goalBox.setPromptText("Choose Your Goal!");
         goalBox.getItems().addAll("WEIGHT_LOSS", "MUSCLE_GAIN", "MAINTAIN_WEIGHT");
         goalBox.setTranslateY(50);
+        goalBox.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-border-color: rgba(0,255,255,0.3);");
 
         Button SubmitButton = new Button("Submit");
         SubmitButton.setFont(Font.font("Verdana", 20));
         SubmitButton.setTranslateY(100);
+        SubmitButton.setStyle(
+                "-fx-background-color: linear-gradient(to right, #00fff7, #9b59ff);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 20px;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10 25;" +
+                        "-fx-background-insets: 0;"
+        );
+
         SubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
 
@@ -168,13 +187,11 @@ public class Main extends Application {  // extends application gives us the fun
 
                 String name = nameField.getText();
 
-                
                 int userAge = Integer.parseInt(age.getText());
 
                 double weight = Double.parseDouble(weightField.getText());
 
                 double height = Double.parseDouble(heightField.getText());
-
 
                 if (userAge < 1 || userAge > 100 ||
                         height < 50 || height > 250 ||
@@ -214,24 +231,35 @@ public class Main extends Application {  // extends application gives us the fun
         Text text = new Text();
         text.setText("Welcome to Fitelligence!");
         text.setFont(Font.font("Verdana", 50));
+        text.setStyle("-fx-fill: linear-gradient(to right, #00fff7, #9b59ff); -fx-font-weight: bold;");
         StackPane.setAlignment(text, TOP_CENTER);
 
         TextField emailField = new TextField();
         emailField.setPromptText("Enter your Email ex.Minamanmon5@gmail.com");
         emailField.setMaxWidth(400);
         emailField.setMaxHeight(40);
-        emailField.setTranslateY(-50);
+        emailField.setTranslateY(-100);
+        emailField.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         TextField Password = new TextField();
         Password.setPromptText("Enter your password ex. Minamanmon123");
         Password.setMaxWidth(400);
         Password.setMaxHeight(40);
-        Password.setTranslateY(-100);
+        Password.setTranslateY(-50);
+        Password.setStyle("-fx-background-color: rgba(10,10,30,0.8); -fx-text-fill: #00fff7; -fx-prompt-text-fill: #555577; -fx-border-color: rgba(0,255,255,0.3); -fx-border-radius: 12; -fx-background-radius: 12;");
 
         Button SignUpButton = new Button("SignUp");
         SignUpButton.setFont(Font.font("Verdana", 20));
         SignUpButton.setTranslateX(-100);
         SignUpButton.setTranslateY(100);
+        SignUpButton.setStyle(
+                "-fx-background-color: linear-gradient(to right, #00fff7, #9b59ff);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 20px;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10 25;" +
+                        "-fx-background-insets: 0;"
+        );
         SignUpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -242,6 +270,7 @@ public class Main extends Application {  // extends application gives us the fun
                     Text Error = new Text("Invalid Email Address!");
                     Error.setFont(Font.font("Verdana", 20));
                     Error.setTranslateY(5);
+                    Error.setStyle("-fx-fill: #ff1e56;");
                     root.getChildren().add(Error);
                 } else {
 
@@ -251,6 +280,7 @@ public class Main extends Application {  // extends application gives us the fun
                     if (registeredAccount) {
                         SignUpAndIn.setText("Signed Up Successfully!! Please SignIn");
                         SignUpAndIn.setFont(Font.font("Verdana", 20));
+                        SignUpAndIn.setStyle("-fx-fill: linear-gradient(to right, #00fff7, #9b59ff);");
                         StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
                         stage.setScene(scene1);
                         accountList.add(account);
@@ -264,6 +294,14 @@ public class Main extends Application {  // extends application gives us the fun
         SignInButton.setFont(Font.font("Verdana", 20));
         SignInButton.setTranslateX(100);
         SignInButton.setTranslateY(100);
+        SignInButton.setStyle(
+                "-fx-background-color: linear-gradient(to right, #00fff7, #9b59ff);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 20px;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 10 25;" +
+                        "-fx-background-insets: 0;"
+        );
         SignInButton.setOnAction(event -> {
             email = emailField.getText();
             password = Password.getText();
@@ -274,6 +312,7 @@ public class Main extends Application {  // extends application gives us the fun
             if (registeredAccount) {
                 SignUpAndIn.setText("Signed In Successfully!! Welcome Back");
                 SignUpAndIn.setFont(Font.font("Verdana", 20));
+                SignUpAndIn.setStyle("-fx-fill: linear-gradient(to right, #00fff7, #9b59ff);");
                 StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
                 fileHandler.loadAccounts();
                 fileHandler.loadProfiles();
@@ -283,6 +322,7 @@ public class Main extends Application {  // extends application gives us the fun
             } else {
                 SignUpAndIn.setText("Account doesnn't exists please Signup!!");
                 SignUpAndIn.setFont(Font.font("Verdana", 20));
+                SignUpAndIn.setStyle("-fx-fill: #ff1e56;");
                 StackPane.setAlignment(SignUpAndIn, BOTTOM_CENTER);
             }
         });
@@ -324,7 +364,6 @@ public class Main extends Application {  // extends application gives us the fun
         alert.showAndWait();
     }
 
-
     private void showSuccess(String message, StackPane root) {
         Text successText = new Text(message);
         successText.setFont(Font.font("Verdana", 15));
@@ -342,10 +381,8 @@ public class Main extends Application {  // extends application gives us the fun
     }
     public void checkAutoReset(UserProfiles user){
 
-
-
         if(user!=null){
-           user.autoResetAt3AM() ;
+            user.autoResetAt3AM() ;
         }
     }
 
