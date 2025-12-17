@@ -566,7 +566,7 @@ public class PageExercise {
                 );
             }
         }
-
+        userProfiles.setTotalSteps(0); // will need to check on this soon just tesitng
         userProfiles.setExerciseTracker(newTracker);
     }
 
