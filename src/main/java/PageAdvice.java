@@ -350,7 +350,7 @@ E                    xamples that FAIL: "abc", "175.", ".5", ""
 
         // Create the appropriate condition object
         ConditionsHealth conditionObject = null;
-
+// dh Polymorphism
         switch (userCondition) {
             case DIABETES:
                 conditionObject = new ConditionDiabetes("Diabetes condition", "Diabetes", "Metabolic");

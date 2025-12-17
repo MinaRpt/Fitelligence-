@@ -11,7 +11,7 @@ public class MacroCalculator {
         }
 
         double multiplier ;
-        switch (user.getActivityLevel()) {
+            switch (user.getActivityLevel()) {
             case LIGHTLY_ACTIVE:multiplier= 1.375;
                 break;
             case MODERATELY_ACTIVE:multiplier= 1.55;

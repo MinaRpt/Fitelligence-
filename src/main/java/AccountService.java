@@ -15,7 +15,7 @@ public class AccountService {
 
     public boolean SignUpCheck(Account account) {
         for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getEmail().equals(account.getEmail())) {
+            if (accounts.get(i).getEmail().equals(account.getEmail())  && accounts.get(i).getPassword().equals(account.getPassword())) {
                 System.out.println("Account with email " + account.getEmail() + " already exists.");
                 return false; // means account already exists
 

@@ -41,11 +41,11 @@ public class FileHandling {
     }
 
 
-    public void addProfile(UserProfiles newProfile) {
-        ArrayList<UserProfiles> profiles = loadProfiles();
-        profiles.add(newProfile);
-        saveProfiles(profiles);
-    }
+//    public void addProfile(UserProfiles newProfile) {
+//        ArrayList<UserProfiles> profiles = loadProfiles();
+//        profiles.add(newProfile);
+//        saveProfiles(profiles);
+//    }
 
     //    public void saveAccounts(ArrayList<Account> accounts) {
 //        try (FileWriter writer = new FileWriter("accounts.txt")) {

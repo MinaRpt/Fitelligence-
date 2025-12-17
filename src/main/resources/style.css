@@ -55,13 +55,6 @@
     -fx-transition: -fx-translate-x 0.15s ease-in-out; /* Smooth translation */
 }
 
-.logout-btn {
-    -fx-background-color: transparent;
-    -fx-text-fill: linear-gradient(to right, #ff1e56, #ff758c);
-    -fx-font-size: 20;
-    -fx-font-weight: 600;
-    -fx-alignment: CENTER_LEFT;
-}
 
 /* Main Content */
 .main-content {
